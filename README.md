@@ -8,6 +8,8 @@ colour and storage selectors, and a cart counter in the header, on top of the
 
 React 19 + TypeScript + Vite, client-side routing with React Router (no SSR, no MPA).
 
+**Live demo: <https://kintstoner.github.io/mobile-shop-spa/>** (deployed to GitHub Pages on every push to `main`).
+
 ![Product list](docs/screenshots/plp-desktop.png)
 
 ## Run

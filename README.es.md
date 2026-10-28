@@ -8,6 +8,8 @@ detalle con selectores de color y almacenamiento, y contador de cesta en la cabe
 
 React 19 + TypeScript + Vite, enrutado en cliente con React Router (sin SSR ni MPA).
 
+**Demo: <https://kintstoner.github.io/mobile-shop-spa/>** (se publica en GitHub Pages en cada push a `main`).
+
 ![Listado de productos](docs/screenshots/plp-desktop.png)
 
 ## Ejecutar
