@@ -6,21 +6,26 @@
   border-bottom: 1px solid var(--color-border);
 }
 
+/* Small screens: logo and cart on a 56px row, breadcrumbs on a 40px row below. */
 .inner {
   max-width: var(--container-max);
   margin: 0 auto;
   padding: 0 var(--space-4);
-  height: var(--header-h-compact);
-  display: flex;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  grid-template-areas:
+    'logo . cart'
+    'crumbs crumbs crumbs';
+  grid-template-rows: var(--header-h-compact) 40px;
   align-items: center;
-  gap: var(--space-5);
+  column-gap: var(--space-5);
 }
 
 .logo {
+  grid-area: logo;
   display: flex;
   align-items: center;
   gap: 10px;
-  flex: 0 0 auto;
   color: var(--color-text);
   text-decoration: none;
   border-radius: var(--radius-md);
@@ -47,6 +52,19 @@
   letter-spacing: -0.03em;
 }
 
+.divider {
+  display: none;
+}
+
+.breadcrumbs {
+  grid-area: crumbs;
+  align-self: start;
+}
+
+.cart {
+  grid-area: cart;
+}
+
 @media (min-width: 480px) {
   .inner {
     padding: 0 var(--space-5);
@@ -55,8 +73,22 @@
 
 @media (min-width: 768px) {
   .inner {
-    height: var(--header-h);
     padding: 0 var(--space-6);
+    grid-template-columns: auto auto minmax(0, 1fr) auto;
+    grid-template-areas: 'logo divider crumbs cart';
+    grid-template-rows: var(--header-h);
+  }
+
+  .divider {
+    grid-area: divider;
+    display: block;
+    width: 1px;
+    height: 24px;
+    background: var(--color-border);
+  }
+
+  .breadcrumbs {
+    align-self: center;
   }
 }
 
