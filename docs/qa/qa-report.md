@@ -33,3 +33,14 @@ Notes on Lighthouse:
   fixed with explicit spaces).
 
 Screenshots: [`docs/screenshots`](../screenshots).
+
+## Second pass, after the shop UX changes (2026-10-28)
+
+| #   | Check                                                                   | How                                                                                                | Result                         |
+| --- | ----------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- | ------------------------------ |
+| 15  | Add button on screen without scrolling                                  | Detail at 1366 × 768                                                                               | OK                             |
+| 16  | Sticky buy bar on phones; "Elegir opciones" leads to the missing option | 390 and 320 px, no horizontal overflow at 320                                                      | OK                             |
+| 17  | Magnifier around the pointer and full-screen viewer                     | Real photos at 1366 px; Escape and close button                                                    | OK (soft at 2×: 160 px photos) |
+| 18  | Waiting screen when the server sleeps                                   | Cache cleared, API answers delayed 20 s by an init script: screen at 3 s, products when it answers | OK                             |
+| 19  | Cart button toast and language switch (prices included)                 | Header                                                                                             | OK                             |
+| 20  | Lighthouse                                                              | List and detail, mobile and desktop: Accessibility **100**, Best practices 96, SEO **100**         | OK                             |

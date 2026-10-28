@@ -27,6 +27,10 @@ movimiento) y tableros interactivos del listado y del detalle. La exportación e
 - Cambios deliberados respecto a los tableros: las opciones de color y almacenamiento son radios nativos dibujados
   como chips (teclado y semántica de grupo gratis) en vez de botones con `aria-pressed`; la foto de la tarjeta es
   decorativa porque el texto del enlace ya nombra el producto.
+- Cambiado tras revisar la app como tienda: la columna del detalle pone las opciones de compra justo debajo del precio
+  y las especificaciones después (los tableros tenían primero las especificaciones), así el botón de añadir se ve sin
+  hacer scroll; en el móvil una barra fija lo mantiene a mano. Se añadieron como tokens los colores de aviso de los
+  toasts.
 
 ## Consecuencias
 

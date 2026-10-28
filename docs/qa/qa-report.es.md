@@ -33,3 +33,14 @@ Notas sobre Lighthouse:
   "AcerIconia Talk S" (lo detectó antes un test; corregido con espacios explícitos).
 
 Capturas: [`docs/screenshots`](../screenshots).
+
+## Segunda pasada, tras los cambios de UX de tienda (2026-10-28)
+
+| #   | Comprobación                                                                    | Cómo                                                                                                            | Resultado                         |
+| --- | ------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- | --------------------------------- |
+| 15  | Botón de añadir visible sin hacer scroll                                        | Detalle a 1366 × 768                                                                                            | OK                                |
+| 16  | Barra de compra fija en el móvil; "Elegir opciones" lleva a la opción que falta | 390 y 320 px, sin desbordamiento horizontal a 320                                                               | OK                                |
+| 17  | Lupa alrededor del puntero y visor a pantalla completa                          | Fotos reales a 1366 px; Escape y botón de cerrar                                                                | OK (blanda a 2×: fotos de 160 px) |
+| 18  | Pantalla de espera con el servidor dormido                                      | Caché borrada y respuestas del API retrasadas 20 s con un script: pantalla a los 3 s, productos cuando responde | OK                                |
+| 19  | Toast del botón de la cesta y cambio de idioma (precios incluidos)              | Cabecera                                                                                                        | OK                                |
+| 20  | Lighthouse                                                                      | Listado y detalle, móvil y escritorio: accesibilidad **100**, buenas prácticas 96, SEO **100**                  | OK                                |

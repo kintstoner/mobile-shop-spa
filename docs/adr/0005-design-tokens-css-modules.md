@@ -27,6 +27,9 @@ interactive boards for the list and the detail page. The export is kept in [`des
 - Deliberate changes from the boards: colour and storage options are native radio inputs drawn as chips (keyboard
   and group semantics for free) instead of `aria-pressed` buttons; the card photo is decorative because the link text
   already names the product.
+- Changed after reviewing the app as a shop: the detail column puts the purchase options right under the price and
+  the specifications after them (the boards had specs first), so the add button is on screen without scrolling; on
+  phones a sticky bar keeps it at hand. Warning colours for toasts were added as tokens.
 
 ## Consequences
 
