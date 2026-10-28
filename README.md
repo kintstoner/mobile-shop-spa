@@ -20,16 +20,18 @@ Requirements: Node 22+.
 npm install
 npm start          # development server on http://localhost:5173
 npm run build      # type check + production build in dist/
-npm test           # 110 tests (Vitest + Testing Library + MSW)
+npm test           # 117 tests (Vitest + Testing Library + MSW)
 npm run lint       # oxlint + Prettier check
+npm run test:e2e   # 5 Playwright smoke tests on the production build (once: npx playwright install chromium)
 ```
 
 Optional configuration (see `.env.example`):
 
-| Variable            | Default                                  | Meaning                              |
-| ------------------- | ---------------------------------------- | ------------------------------------ |
-| `VITE_API_BASE_URL` | `https://itx-frontend-test.onrender.com` | API root                             |
-| `VITE_CACHE_TTL_MS` | `3600000` (1 hour)                       | Lifetime of each cached API response |
+| Variable                  | Default                                  | Meaning                                                       |
+| ------------------------- | ---------------------------------------- | ------------------------------------------------------------- |
+| `VITE_API_BASE_URL`       | `https://itx-frontend-test.onrender.com` | API root                                                      |
+| `VITE_CACHE_TTL_MS`       | `3600000` (1 hour)                       | Lifetime of each cached API response                          |
+| `VITE_CACHE_MAX_STALE_MS` | `86400000` (24 hours)                    | How long expired data may still be shown while it revalidates |
 
 The API runs on a free host that sleeps when idle: the **first load can take up to a minute** (measured: 52 s). The
 app says so after 5 s of waiting; later loads come from the client cache.
@@ -87,7 +89,7 @@ flowchart LR
 Summary in [docs/DECISIONS.md](docs/DECISIONS.md); each one has an ADR in [docs/adr](docs/adr). In short:
 
 - **SPA with Vite + React 19 + React Router (declarative)**: what the statement asks for, nothing more.
-- **Own TTL cache** (memory + localStorage, one hour per entry, revalidated on expiry; concurrent requests shared,
+- **Own TTL cache** (memory + localStorage, one hour per entry; expired data is shown at once while it revalidates in the background; concurrent requests shared,
   failures not cached).
 - **Cart count in the client**: the API always answers `count: 1` to browsers (below).
 - **One mapper for the API's quirks**, unit-tested against real data.
@@ -114,20 +116,26 @@ The statement shows `id: 0001`-style examples; the real API differs. Each point 
 
 ## How it was tested
 
-**110 automated tests** (`npm test`), most of them rendering the whole app at a URL with MSW answering as the real
+**117 automated tests** (`npm test`), most of them rendering the whole app at a URL with MSW answering as the real
 API (fixtures recorded from it):
 
-| Area                 | Tests                                                                               | What they cover                                                                                                                                                                                      |
-| -------------------- | ----------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Cache and API client | `ttlCache` (8), `shopApi` (11)                                                      | Expiry at exactly one hour, reload survival, corrupted or full storage, cache hit without request, revalidation after an hour (fake clock), shared in-flight request, failures not cached, cart body |
-| Data mapping         | `productMapper` (25), `colorSwatch` (10), `searchProducts` (7)                      | Every quirk in the table above; word, case and accent rules of the search                                                                                                                            |
-| List                 | `ProductListPage` (6), `ProductSearch` (5), `ProductImage` (3)                      | Loading, 100 cards, accessible card names, missing price, error and retry, real-time filter, URL query, empty state, image fallback                                                                  |
-| Detail and cart      | `ProductDetailPage` (7), `ProductActions` (7), `cartReducer` (4), `cartStorage` (6) | Specs, missing values, page title, 500 error, back to the same search, preselection, inactive button, posted codes, client count, failure, keyboard                                                  |
-| App                  | `Header` (6), routing (3), error boundary (1), `App` (1)                            | Breadcrumbs, badge on every view and after reload, 404 page, slow-load notice, skip link, render crash                                                                                               |
+| Area                 | Tests                                                                               | What they cover                                                                                                                                                                                                                        |
+| -------------------- | ----------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Cache and API client | `ttlCache` (10), `shopApi` (14)                                                     | Expiry at exactly one hour, reload survival, corrupted or full storage, cache hit without request, revalidation after an hour (fake clock), stale data kept for revalidation, shared in-flight request, failures not cached, cart body |
+| Data mapping         | `productMapper` (25), `colorSwatch` (10), `searchProducts` (7)                      | Every quirk in the table above; word, case and accent rules of the search                                                                                                                                                              |
+| List                 | `ProductListPage` (8), `ProductSearch` (5), `ProductImage` (3)                      | Loading, 100 cards, accessible card names, missing price, error and retry, expired cache shown at once and kept if revalidation fails, real-time filter, URL query, empty state, image fallback                                        |
+| Detail and cart      | `ProductDetailPage` (7), `ProductActions` (7), `cartReducer` (4), `cartStorage` (6) | Specs, missing values, page title, 500 error, back to the same search, preselection, inactive button, posted codes, client count, failure, keyboard                                                                                    |
+| App                  | `Header` (6), routing (3), error boundary (1), `App` (1)                            | Breadcrumbs, badge on every view and after reload, 404 page, slow-load notice, skip link, render crash                                                                                                                                 |
 
 Tests written after the code were checked by breaking it on purpose (cache expiry boundary, in-flight dedupe): each
 break made a test fail. Queries go by role and accessible name, and one caught a real bug (a card read
 "AcerIconia Talk S" to screen readers).
+
+**End-to-end smoke tests** (`npm run test:e2e`, Playwright, also in CI): the production build in a real Chromium,
+with the API mocked from the same recorded data so the run does not depend on a host that sleeps. They cover search →
+detail → add → count kept after a reload, at most four columns at 1440 px and one at 390 px (CSS that jsdom cannot
+check), a second visit served from the cache with no API call, a product URL opened directly, and an unknown product.
+The column test was checked by changing the grid to five columns: it failed.
 
 **QA pass in a real browser** (Chrome DevTools MCP, real API): layouts at 1440 and 390 px, search, add to cart with
 the real `POST`, counter after reload, unknown id, cache hit (0 requests on reload) and revalidation after forcing the
@@ -137,13 +145,12 @@ expiry, light and dark themes, Lighthouse accessibility 100. Report: [docs/qa](d
 | ------------------------------------------- | ----------------------------------------------- | ---------------------------------------- |
 | ![Detail](docs/screenshots/pdp-desktop.png) | ![Mobile list](docs/screenshots/plp-mobile.png) | ![Error](docs/screenshots/pdp-error.png) |
 
-**CI** (GitHub Actions) runs lint, tests and build on every push; a second workflow publishes the build to GitHub
+**CI** (GitHub Actions) runs lint, unit and integration tests, build and the Playwright smoke on every push; a second workflow publishes the build to GitHub
 Pages (enable Pages with "GitHub Actions" as the source in the repository settings).
 
 ## Known limitations
 
 - The cart is a counter, not a cart: the API gives a browser no way to read or keep a server cart (ADR 3).
-- After an hour the cache expires and the next visit waits for the API; stale-while-revalidate would hide that.
 - The API's images are small (about 160 × 212 px) and look soft on the detail page.
 - The interface is in Spanish only; the API's own texts (specs, colour names) are shown as they come, in English.
 - The design's sticky "add" bar for small screens was not built; on mobile the button sits after the specs.
@@ -159,5 +166,5 @@ and the implementation follows them.
   DevTools (screenshots, network, cache, Lighthouse) and drafted the documentation.
 - **What was decided and checked by hand**: the design itself, the versions and the trade-offs in the ADRs, the
   behaviour in the browser, and every line of this README and the ADRs.
-- **Guardrails**: 110 automated tests over real API data, strict TypeScript, lint that fails on warnings, CI on every
+- **Guardrails**: 117 automated tests over real API data, 5 end-to-end smoke tests, strict TypeScript, lint that fails on warnings, CI on every
   push, and the browser QA pass.

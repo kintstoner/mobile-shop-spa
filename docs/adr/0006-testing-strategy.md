@@ -21,10 +21,13 @@ The statement only asks for a `test` script. The risk in this app is not one fun
 - Expiry tested with fake clocks: an injected `now` in the cache, `vi.setSystemTime` through the API client.
 - Tests written after the code were checked by breaking the code on purpose (expiry `>=` → `>`, removing the
   in-flight dedupe): each change made a test fail.
+- **Playwright smoke tests** run the production build in a real Chromium (API mocked from the same fixtures): the
+  main purchase flow, columns per breakpoint, the cache across reloads, a deep link and an unknown product. They run
+  in CI.
 - A QA pass in a real browser (Chrome DevTools MCP) covers what jsdom cannot: layout, real API, network and cache,
   Lighthouse. Report in [`docs/qa`](../qa/qa-report.md).
 
 ## Consequences
 
-- 110 tests run in a few seconds and survive refactors that keep the behaviour.
-- CSS (columns per breakpoint, themes) is checked visually, not by unit tests.
+- 117 unit and integration tests and 5 end-to-end tests run in seconds and survive refactors that keep the behaviour.
+- The grid columns are checked end to end; themes and the rest of the visual design are checked by eye in the QA pass.

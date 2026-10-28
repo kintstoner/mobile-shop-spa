@@ -23,10 +23,13 @@ datos del API (ADR 4), en la caché (ADR 2) y en la interacción entre páginas,
   del API.
 - Los tests escritos después del código se comprobaron rompiendo el código a propósito (caducidad `>=` → `>`, quitar
   la deduplicación de peticiones en vuelo): cada cambio hizo fallar un test.
+- **Tests e2e con Playwright** que ejecutan el build de producción en un Chromium real (API simulado con los mismos
+  fixtures): el flujo principal de compra, columnas por breakpoint, la caché entre recargas, un enlace directo y un
+  producto inexistente. Corren en CI.
 - Una pasada de QA en un navegador real (MCP de Chrome DevTools) cubre lo que jsdom no ve: maquetación, API real, red y
   caché, Lighthouse. Informe en [`docs/qa`](../qa/qa-report.es.md).
 
 ## Consecuencias
 
-- 110 tests que corren en pocos segundos y aguantan refactors que mantienen el comportamiento.
-- El CSS (columnas por breakpoint, temas) se comprueba visualmente, no con tests unitarios.
+- 117 tests unitarios y de integración y 5 tests e2e que corren en segundos y aguantan refactors que mantienen el comportamiento.
+- Las columnas del grid se comprueban de punta a punta; los temas y el resto del diseño, a ojo en la pasada de QA.

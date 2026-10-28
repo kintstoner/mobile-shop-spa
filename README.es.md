@@ -20,16 +20,18 @@ Requisitos: Node 22+.
 npm install
 npm start          # servidor de desarrollo en http://localhost:5173
 npm run build      # comprobación de tipos + build de producción en dist/
-npm test           # 110 tests (Vitest + Testing Library + MSW)
+npm test           # 117 tests (Vitest + Testing Library + MSW)
 npm run lint       # oxlint + comprobación de Prettier
+npm run test:e2e   # 5 tests e2e de Playwright sobre el build de producción (una vez: npx playwright install chromium)
 ```
 
 Configuración opcional (ver `.env.example`):
 
-| Variable            | Por defecto                              | Significado                             |
-| ------------------- | ---------------------------------------- | --------------------------------------- |
-| `VITE_API_BASE_URL` | `https://itx-frontend-test.onrender.com` | Raíz del API                            |
-| `VITE_CACHE_TTL_MS` | `3600000` (1 hora)                       | Vida de cada respuesta del API en caché |
+| Variable                  | Por defecto                              | Significado                                                          |
+| ------------------------- | ---------------------------------------- | -------------------------------------------------------------------- |
+| `VITE_API_BASE_URL`       | `https://itx-frontend-test.onrender.com` | Raíz del API                                                         |
+| `VITE_CACHE_TTL_MS`       | `3600000` (1 hora)                       | Vida de cada respuesta del API en caché                              |
+| `VITE_CACHE_MAX_STALE_MS` | `86400000` (24 horas)                    | Cuánto tiempo se puede mostrar un dato caducado mientras se revalida |
 
 El API está en un hosting gratuito que se duerme cuando no se usa: **la primera carga puede tardar hasta un minuto**
 (medido: 52 s). La app lo avisa a los 5 s de espera; las cargas siguientes salen de la caché del cliente.
@@ -88,7 +90,7 @@ flowchart LR
 Resumen en [docs/DECISIONS.es.md](docs/DECISIONS.es.md); cada una tiene un ADR en [docs/adr](docs/adr). En breve:
 
 - **SPA con Vite + React 19 + React Router (declarativo)**: lo que pide el enunciado, nada más.
-- **Caché TTL propia** (memoria + localStorage, una hora por entrada, revalidación al caducar; peticiones simultáneas
+- **Caché TTL propia** (memoria + localStorage, una hora por entrada; el dato caducado se muestra al instante mientras se revalida en segundo plano; peticiones simultáneas
   compartidas, los fallos no se cachean).
 - **Contador de cesta en el cliente**: el API siempre responde `count: 1` a los navegadores (ver abajo).
 - **Un mapper para las rarezas del API**, con tests contra datos reales.
@@ -115,20 +117,26 @@ El enunciado muestra ejemplos tipo `id: 0001`; el API real es distinto. Cada pun
 
 ## Cómo se ha probado
 
-**110 tests automáticos** (`npm test`), la mayoría pintando la app entera en una URL con MSW respondiendo como el API
+**117 tests automáticos** (`npm test`), la mayoría pintando la app entera en una URL con MSW respondiendo como el API
 real (con fixtures grabados de él):
 
-| Área                    | Tests                                                                               | Qué cubren                                                                                                                                                                                                                     |
-| ----------------------- | ----------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Caché y cliente del API | `ttlCache` (8), `shopApi` (11)                                                      | Caducidad justo a la hora, supervivencia a recargas, storage corrupto o lleno, acierto de caché sin petición, revalidación pasada una hora (reloj falso), petición en vuelo compartida, fallos sin cachear, cuerpo de la cesta |
-| Mapeo de datos          | `productMapper` (25), `colorSwatch` (10), `searchProducts` (7)                      | Cada rareza de la tabla anterior; reglas de palabras, mayúsculas y acentos de la búsqueda                                                                                                                                      |
-| Listado                 | `ProductListPage` (6), `ProductSearch` (5), `ProductImage` (3)                      | Carga, 100 tarjetas, nombres accesibles, precio ausente, error y reintento, filtro en tiempo real, consulta en la URL, estado vacío, imagen de respaldo                                                                        |
-| Detalle y cesta         | `ProductDetailPage` (7), `ProductActions` (7), `cartReducer` (4), `cartStorage` (6) | Especificaciones, valores ausentes, título de la página, error 500, vuelta a la misma búsqueda, preselección, botón inactivo, códigos enviados, contador en cliente, fallo, teclado                                            |
-| App                     | `Header` (6), rutas (3), error boundary (1), `App` (1)                              | Migas, contador en todas las vistas y tras recargar, página 404, aviso de carga lenta, enlace de salto, fallo de render                                                                                                        |
+| Área                    | Tests                                                                               | Qué cubren                                                                                                                                                                                                                                                              |
+| ----------------------- | ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Caché y cliente del API | `ttlCache` (10), `shopApi` (14)                                                     | Caducidad justo a la hora, supervivencia a recargas, storage corrupto o lleno, acierto de caché sin petición, revalidación pasada una hora (reloj falso), dato caducado disponible para revalidar, petición en vuelo compartida, fallos sin cachear, cuerpo de la cesta |
+| Mapeo de datos          | `productMapper` (25), `colorSwatch` (10), `searchProducts` (7)                      | Cada rareza de la tabla anterior; reglas de palabras, mayúsculas y acentos de la búsqueda                                                                                                                                                                               |
+| Listado                 | `ProductListPage` (8), `ProductSearch` (5), `ProductImage` (3)                      | Carga, 100 tarjetas, nombres accesibles, precio ausente, error y reintento, caché caducada mostrada al instante y mantenida si falla la revalidación, filtro en tiempo real, consulta en la URL, estado vacío, imagen de respaldo                                       |
+| Detalle y cesta         | `ProductDetailPage` (7), `ProductActions` (7), `cartReducer` (4), `cartStorage` (6) | Especificaciones, valores ausentes, título de la página, error 500, vuelta a la misma búsqueda, preselección, botón inactivo, códigos enviados, contador en cliente, fallo, teclado                                                                                     |
+| App                     | `Header` (6), rutas (3), error boundary (1), `App` (1)                              | Migas, contador en todas las vistas y tras recargar, página 404, aviso de carga lenta, enlace de salto, fallo de render                                                                                                                                                 |
 
 Los tests escritos después del código se comprobaron rompiéndolo a propósito (límite de caducidad de la caché,
 deduplicación de peticiones en vuelo): cada rotura hizo fallar un test. Las consultas van por rol y nombre accesible,
 y una encontró un fallo real (una tarjeta se leía "AcerIconia Talk S" en un lector de pantalla).
+
+**Tests end-to-end** (`npm run test:e2e`, Playwright, también en CI): el build de producción en un Chromium real, con el
+API simulado a partir de los mismos datos grabados para no depender de un servidor que se duerme. Cubren búsqueda →
+detalle → añadir → contador mantenido tras recargar, como máximo cuatro columnas a 1440 px y una a 390 px (CSS que jsdom
+no puede comprobar), una segunda visita servida desde la caché sin llamar al API, abrir directamente la URL de un
+producto y un producto inexistente. El test de columnas se comprobó cambiando el grid a cinco columnas: falló.
 
 **Pasada de QA en navegador real** (MCP de Chrome DevTools, API real): maquetación a 1440 y 390 px, búsqueda, añadir a
 la cesta con el `POST` real, contador tras recargar, id inexistente, acierto de caché (0 peticiones al recargar) y
@@ -139,14 +147,13 @@ revalidación forzando la caducidad, temas claro y oscuro, Lighthouse accesibili
 | -------------------------------------------- | ---------------------------------------------------- | ---------------------------------------- |
 | ![Detalle](docs/screenshots/pdp-desktop.png) | ![Listado en móvil](docs/screenshots/plp-mobile.png) | ![Error](docs/screenshots/pdp-error.png) |
 
-**CI** (GitHub Actions) ejecuta lint, tests y build en cada push; un segundo workflow publica el build en GitHub Pages
+**CI** (GitHub Actions) ejecuta lint, tests unitarios y de integración, build y los tests e2e de Playwright en cada push; un segundo workflow publica el build en GitHub Pages
 (hay que activar Pages con "GitHub Actions" como origen en la configuración del repositorio).
 
 ## Limitaciones conocidas
 
 - La cesta es un contador, no una cesta: el API no da a un navegador forma de leer ni mantener una cesta en servidor
   (ADR 3).
-- Pasada una hora la caché caduca y la siguiente visita espera al API; stale-while-revalidate lo ocultaría.
 - Las imágenes del API son pequeñas (unos 160 × 212 px) y se ven algo blandas en el detalle.
 - La interfaz está solo en español; los textos propios del API (especificaciones, nombres de color) se muestran tal
   como llegan, en inglés.
@@ -164,5 +171,5 @@ se iteraron allí, y la implementación los sigue.
   pasada de QA en Chrome a través de DevTools (capturas, red, caché, Lighthouse) y redactó la documentación.
 - **Qué se decidió y comprobó a mano**: el propio diseño, las versiones y las contrapartidas de los ADRs, el
   comportamiento en el navegador, y cada línea de este README y de los ADRs.
-- **Guardarraíles**: 110 tests automáticos sobre datos reales del API, TypeScript estricto, lint que falla con avisos,
+- **Guardarraíles**: 117 tests automáticos sobre datos reales del API, 5 tests e2e, TypeScript estricto, lint que falla con avisos,
   CI en cada push y la pasada de QA en navegador.
