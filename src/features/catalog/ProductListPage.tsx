@@ -1,14 +1,20 @@
 import { ErrorMessage } from '../../components/ErrorMessage'
 import { Skeleton } from '../../components/Skeleton'
 import type { ProductSummary } from '../../domain/types'
+import { EmptySearch } from './EmptySearch'
 import { ProductCard } from './ProductCard'
 import styles from './ProductListPage.module.css'
+import { SearchBar } from './SearchBar'
 import { useProducts } from './useProducts'
+import { useProductSearch } from './useProductSearch'
 
 const SKELETON_CARDS = 8
+const NO_PRODUCTS: ProductSummary[] = []
 
 export function ProductListPage() {
   const query = useProducts()
+  const products = query.status === 'success' ? query.data : NO_PRODUCTS
+  const search = useProductSearch(products)
 
   return (
     <main className={styles.page}>
@@ -16,9 +22,12 @@ export function ProductListPage() {
         <div className={styles.titleBlock}>
           <h1 className={styles.title}>Móviles y tablets</h1>
           <p className={styles.count} aria-live="polite">
-            {query.status === 'success' ? countLabel(query.data) : ' '}
+            {query.status === 'success'
+              ? countLabel(search.results.length, products.length, search.query.trim() !== '')
+              : ' '}
           </p>
         </div>
+        <SearchBar value={search.query} onChange={search.setQuery} />
       </div>
 
       {query.status === 'loading' && <GridSkeleton />}
@@ -27,13 +36,20 @@ export function ProductListPage() {
           Comprueba tu conexión e inténtalo de nuevo.
         </ErrorMessage>
       )}
-      {query.status === 'success' && <ProductGrid products={query.data} />}
+      {query.status === 'success' &&
+        (search.results.length > 0 ? (
+          <ProductGrid products={search.results} />
+        ) : (
+          <EmptySearch query={search.query.trim()} onClear={() => search.setQuery('')} />
+        ))}
     </main>
   )
 }
 
-function countLabel(products: ProductSummary[]) {
-  return products.length === 1 ? '1 producto' : `${products.length} productos`
+function countLabel(found: number, total: number, searching: boolean) {
+  const totalLabel = total === 1 ? '1 producto' : `${total} productos`
+  if (!searching) return totalLabel
+  return `${found === 1 ? '1 resultado' : `${found} resultados`} de ${totalLabel}`
 }
 
 function ProductGrid({ products }: { products: ProductSummary[] }) {
