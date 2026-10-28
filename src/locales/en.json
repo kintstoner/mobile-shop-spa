@@ -106,5 +106,9 @@
   "slowLoad": "The server is starting up. The first load can take up to a minute.",
   "toast": {
     "close": "Close notice"
+  },
+  "zoom": {
+    "open": "Enlarge image: {{name}}",
+    "close": "Close"
   }
 }

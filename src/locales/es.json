@@ -106,5 +106,9 @@
   "slowLoad": "El servidor está arrancando. La primera carga puede tardar hasta un minuto.",
   "toast": {
     "close": "Cerrar aviso"
+  },
+  "zoom": {
+    "open": "Ampliar imagen: {{name}}",
+    "close": "Cerrar"
   }
 }

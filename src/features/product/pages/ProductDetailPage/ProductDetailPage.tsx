@@ -1,13 +1,13 @@
 import { useTranslation } from 'react-i18next'
 import { Link, useLocation, useParams } from 'react-router'
 import { ProductActions } from '@/features/product/components/ProductActions/ProductActions'
+import { ProductImageZoom } from '@/features/product/components/ProductImageZoom/ProductImageZoom'
 import { ProductHeading } from '@/features/product/components/ProductHeading/ProductHeading'
 import { ProductSpecs } from '@/features/product/components/ProductSpecs/ProductSpecs'
 import { useProduct } from '@/features/product/hooks/useProduct'
 import type { ProductDetail } from '@/shared/domain/types'
 import { ErrorMessage } from '@/shared/ui/ErrorMessage/ErrorMessage'
 import { ArrowLeftIcon } from '@/shared/ui/icons'
-import { ProductImage } from '@/shared/ui/ProductImage/ProductImage'
 import { Skeleton } from '@/shared/ui/Skeleton/Skeleton'
 import { SlowLoadNotice } from '@/shared/ui/SlowLoadNotice/SlowLoadNotice'
 import styles from './ProductDetailPage.module.css'
@@ -58,9 +58,7 @@ function ProductView({ product }: { product: ProductDetail }) {
     <div className={styles.layout}>
       <title>{t('app.pageTitle', { title: name })}</title>
       <section aria-label={t('product.imageRegion')} className={styles.imageColumn}>
-        <div className={styles.stage}>
-          <ProductImage src={product.imageUrl} alt={name} loading="eager" />
-        </div>
+        <ProductImageZoom src={product.imageUrl} alt={name} />
       </section>
       <section aria-labelledby="product-title" className={styles.infoColumn}>
         {/* Purchase options right under the price, so the add button is on screen without scrolling. */}

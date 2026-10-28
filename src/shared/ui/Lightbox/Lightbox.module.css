@@ -1,0 +1,65 @@
+.dialog {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-toast);
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  max-height: none;
+  margin: 0;
+  padding: var(--space-6);
+  border: 0;
+  background: rgb(18 21 26 / 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dialog::backdrop {
+  background: transparent;
+}
+
+/* The API's photos are about 160 × 212 px: show them up to about 2.5× so they stay sharp enough. */
+.image {
+  width: min(400px, 100%);
+  max-height: 100%;
+  object-fit: contain;
+  padding: var(--space-8);
+  border-radius: var(--radius-xl);
+  background: var(--color-image-bg);
+  box-shadow: var(--shadow-lg);
+  animation: zoom-in var(--duration-base) var(--ease-standard);
+}
+
+.close {
+  position: absolute;
+  top: var(--space-4);
+  right: var(--space-4);
+  width: var(--control-h);
+  height: var(--control-h);
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--color-surface);
+  color: var(--color-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.close:hover {
+  background: var(--color-surface-sunken);
+}
+
+@keyframes zoom-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .image {
+    animation: none;
+  }
+}

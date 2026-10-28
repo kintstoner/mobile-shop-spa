@@ -82,3 +82,22 @@ test('explains when a product cannot be loaded', async ({ page }) => {
   ).toBeVisible()
   await expect(page.getByRole('link', { name: 'Ver todos los productos' })).toBeVisible()
 })
+
+test('magnifies the product photo under the mouse and opens it in a viewer', async ({ page }) => {
+  await mockApi(page)
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto(`/product/${Z6_PLUS}`)
+
+  const photo = page.getByRole('button', { name: 'Ampliar imagen: Acer Liquid Z6 Plus' })
+  const box = (await photo.boundingBox())!
+  await page.mouse.move(box.x + box.width * 0.25, box.y + box.height * 0.25)
+
+  // The picture (or its fallback, as the mock answers 404 for images) is scaled 2× around the pointer.
+  const scaled = photo.locator(':scope > :first-child')
+  await expect(scaled).toHaveCSS('transform', 'matrix(2, 0, 0, 2, 0, 0)')
+
+  await photo.click()
+  await expect(page.getByRole('dialog', { name: 'Acer Liquid Z6 Plus' })).toBeVisible()
+  await page.keyboard.press('Escape')
+  await expect(page.getByRole('dialog')).toBeHidden()
+})
