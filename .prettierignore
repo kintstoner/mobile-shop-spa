@@ -2,3 +2,5 @@ dist
 design
 coverage
 package-lock.json
+test-results
+playwright-report
