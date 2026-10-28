@@ -1,7 +1,25 @@
+.frame {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 .image {
   width: 100%;
   height: 100%;
   object-fit: contain;
+  transition: opacity var(--duration-base) var(--ease-standard);
+}
+
+.frame[data-state='loading'] .image {
+  opacity: 0;
+}
+
+.placeholder {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-md);
 }
 
 .fallback {

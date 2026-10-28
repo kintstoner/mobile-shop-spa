@@ -9,7 +9,8 @@ import type { ProductDetail } from '@/shared/domain/types'
 import { ErrorMessage } from '@/shared/ui/ErrorMessage/ErrorMessage'
 import { ArrowLeftIcon } from '@/shared/ui/icons'
 import { Skeleton } from '@/shared/ui/Skeleton/Skeleton'
-import { SlowLoadNotice } from '@/shared/ui/SlowLoadNotice/SlowLoadNotice'
+import { useServerStatus } from '@/shared/api/serverStatus'
+import { WakingScreen } from '@/shared/ui/ServerWaking/WakingScreen'
 import styles from './ProductDetailPage.module.css'
 
 export interface ProductPageState {
@@ -22,6 +23,7 @@ export function ProductDetailPage() {
   const { id = '' } = useParams()
   const location = useLocation()
   const fromList = (location.state as ProductPageState | null)?.fromList ?? ''
+  const { waking } = useServerStatus()
   const query = useProduct(id)
 
   return (
@@ -31,7 +33,7 @@ export function ProductDetailPage() {
         {t('product.back')}
       </Link>
 
-      {query.status === 'loading' && <DetailSkeleton />}
+      {query.status === 'loading' && (waking ? <WakingScreen /> : <DetailSkeleton />)}
       {query.status === 'error' && (
         <ErrorMessage
           headingLevel={1}
@@ -77,7 +79,6 @@ function DetailSkeleton() {
       <output className="visually-hidden" aria-label={t('product.loading')}>
         {t('product.loadingText')}
       </output>
-      <SlowLoadNotice />
       <div className={styles.layout} aria-hidden="true">
         <div className={styles.imageColumn}>
           <Skeleton className={styles.skeletonStage} />

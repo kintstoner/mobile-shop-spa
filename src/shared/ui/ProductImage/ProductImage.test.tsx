@@ -30,3 +30,16 @@ describe('ProductImage', () => {
     expect(screen.getByRole('img', { name: 'A' })).toHaveAttribute('src', 'https://img.test/2.jpg')
   })
 })
+
+describe('ProductImage while loading', () => {
+  it('shows a placeholder until the photo arrives', () => {
+    const { container } = render(<ProductImage src="https://img.test/1.jpg" alt="A" />)
+    const frame = container.firstElementChild!
+
+    expect(frame).toHaveAttribute('data-state', 'loading')
+
+    fireEvent.load(screen.getByRole('img'))
+
+    expect(frame).toHaveAttribute('data-state', 'loaded')
+  })
+})

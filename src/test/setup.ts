@@ -1,6 +1,7 @@
 import '@testing-library/jest-dom/vitest'
 import { cleanup } from '@testing-library/react'
 import { afterAll, afterEach, beforeAll, beforeEach } from 'vitest'
+import { serverStatus } from '@/shared/api/serverStatus'
 import { i18n } from '@/shared/i18n/i18n'
 import { server } from './server'
 
@@ -15,6 +16,7 @@ afterEach(() => {
   cleanup()
   server.resetHandlers()
   localStorage.clear()
+  serverStatus.reset()
 })
 
 afterAll(() => server.close())

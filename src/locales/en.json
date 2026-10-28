@@ -103,12 +103,29 @@
     "title": "Page not found",
     "text": "This address does not match any page of the shop."
   },
-  "slowLoad": "The server is starting up. The first load can take up to a minute.",
   "toast": {
     "close": "Close notice"
   },
   "zoom": {
     "open": "Enlarge image: {{name}}",
     "close": "Close"
+  },
+  "waking": {
+    "title": "Waking up the server…",
+    "status": "The server is waking up. You will see the products as soon as it answers.",
+    "explanation": "The shop runs on a free server that falls asleep when nobody visits. It usually wakes up in under a minute.",
+    "progress": "Estimated progress",
+    "noticeLabel": "Server waking up",
+    "noticeTitle": "The server is waking up",
+    "phrases": [
+      "Waking up the hamsters that run the server…",
+      "Polishing the screens…",
+      "Counting the pixels one by one…",
+      "Making the server a coffee…",
+      "Looking for signal… one more bar…",
+      "Untangling the charger cables…",
+      "Convincing the server it is not Monday any more…",
+      "Charging the battery to 100 %…"
+    ]
   }
 }

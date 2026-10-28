@@ -103,12 +103,29 @@
     "title": "Página no encontrada",
     "text": "La dirección no corresponde a ninguna página de la tienda."
   },
-  "slowLoad": "El servidor está arrancando. La primera carga puede tardar hasta un minuto.",
   "toast": {
     "close": "Cerrar aviso"
   },
   "zoom": {
     "open": "Ampliar imagen: {{name}}",
     "close": "Cerrar"
+  },
+  "waking": {
+    "title": "Despertando al servidor…",
+    "status": "El servidor se está despertando. En cuanto responda verás los productos.",
+    "explanation": "La tienda usa un servidor gratuito que se duerme cuando nadie lo visita. Suele despertar en menos de un minuto.",
+    "progress": "Progreso estimado",
+    "noticeLabel": "Servidor despertando",
+    "noticeTitle": "El servidor se está despertando",
+    "phrases": [
+      "Despertando a los hámsters que mueven el servidor…",
+      "Sacando brillo a las pantallas…",
+      "Contando los píxeles uno a uno…",
+      "Preparándole un café al servidor…",
+      "Buscando cobertura… una rayita más…",
+      "Desenredando los cables de los cargadores…",
+      "Convenciendo al servidor de que ya no es lunes…",
+      "Cargando la batería al 100 %…"
+    ]
   }
 }

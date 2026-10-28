@@ -1,7 +1,8 @@
 import { useTranslation } from 'react-i18next'
 import { ErrorMessage } from '@/shared/ui/ErrorMessage/ErrorMessage'
 import { Skeleton } from '@/shared/ui/Skeleton/Skeleton'
-import { SlowLoadNotice } from '@/shared/ui/SlowLoadNotice/SlowLoadNotice'
+import { useServerStatus } from '@/shared/api/serverStatus'
+import { WakingScreen } from '@/shared/ui/ServerWaking/WakingScreen'
 import type { ProductSummary } from '@/shared/domain/types'
 import { EmptySearch } from '@/features/catalog/components/EmptySearch/EmptySearch'
 import { ProductCard } from '@/features/catalog/components/ProductCard/ProductCard'
@@ -15,6 +16,7 @@ const NO_PRODUCTS: ProductSummary[] = []
 
 export function ProductListPage() {
   const { t } = useTranslation()
+  const { waking } = useServerStatus()
   const query = useProducts()
   const products = query.status === 'success' ? query.data : NO_PRODUCTS
   const search = useProductSearch(products)
@@ -37,7 +39,7 @@ export function ProductListPage() {
         <SearchBar value={search.query} onChange={search.setQuery} />
       </div>
 
-      {query.status === 'loading' && <GridSkeleton />}
+      {query.status === 'loading' && (waking ? <WakingScreen /> : <GridSkeleton />)}
       {query.status === 'error' && (
         <ErrorMessage title={t('catalog.error.title')} onRetry={query.retry}>
           {t('catalog.error.text')}
@@ -73,7 +75,6 @@ function GridSkeleton() {
       <output className="visually-hidden" aria-label={t('catalog.loading')}>
         {t('catalog.loadingText')}
       </output>
-      <SlowLoadNotice />
       <div className={styles.grid} aria-hidden="true">
         {Array.from({ length: SKELETON_CARDS }, (_, i) => (
           <div key={i} className={styles.skeletonCard}>

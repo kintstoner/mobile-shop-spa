@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { Outlet, ScrollRestoration } from 'react-router'
 import { Header } from '@/app/layout/Header/Header'
+import { ServerWakingNotice } from '@/shared/ui/ServerWaking/ServerWakingNotice'
 import styles from './Layout.module.css'
 
 export function Layout() {
@@ -14,6 +15,7 @@ export function Layout() {
       <Outlet />
       {/* A product page opens at the top; going back restores the list's scroll position. */}
       <ScrollRestoration />
+      <ServerWakingNotice />
     </>
   )
 }
