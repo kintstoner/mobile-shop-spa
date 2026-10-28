@@ -1,9 +1,9 @@
 import { act, screen } from '@testing-library/react'
 import { delay, http } from 'msw'
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { config } from '../config'
-import { renderApp } from '../test/renderApp'
-import { server } from '../test/server'
+import { config } from '@/config'
+import { renderApp } from '@/test/renderApp'
+import { server } from '@/test/server'
 
 afterEach(() => {
   vi.useRealTimers()

@@ -20,8 +20,8 @@ not only to the API.
 
 ## Decision
 
-- `cache/ttlCache.ts`: an in-memory map in front of `localStorage`. Each entry stores its own `expiresAt`, set when it
-  is written, so a reload keeps the original expiry. An expired entry is deleted and the caller fetches again.
+- `shared/cache/ttlCache.ts`: an in-memory map in front of `localStorage`. Each entry stores its own `expiresAt`, set when it
+  is written, so a reload keeps the original expiry. An expired entry makes the caller fetch again (and can still be shown meanwhile, see below).
 - Keys: `products` and `product:<id>`. The raw API response is cached; mapping happens on read, so changing the
   mapper never needs a cache migration.
 - Concurrent callers for the same key share one in-flight request (the detail page and its breadcrumb ask for the

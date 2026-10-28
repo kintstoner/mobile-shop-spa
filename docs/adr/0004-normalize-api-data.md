@@ -20,12 +20,12 @@ Profiling the 100 real products showed that the API's data cannot be rendered as
 
 ## Decision
 
-- Components never read API types. `domain/productMapper.ts` turns them into `ProductSummary` / `ProductDetail`:
+- Components never read API types. `shared/domain/productMapper.ts` turns them into `ProductSummary` / `ProductDetail`:
   arrays joined with ", " (which restores the original sentence), `""`/`"-"` → missing ("No disponible" in the UI),
   price formatted with `Intl` or null ("Precio no disponible", never "€" or NaN), resolution taken from whichever
   field matches `W x H pixels`, cameras as "Principal / Frontal" lines, " g" added to bare weights, blank options
   named "Sin especificar".
-- The misspelled keys are mapped explicitly and typed in `api/types.ts`, so nothing guesses names from the PDF.
+- The misspelled keys are mapped explicitly and typed in `shared/api/types.ts`, so nothing guesses names from the PDF.
 - Colour swatches come from colour words found in the name ("Titanium Gray" → grey, "Black/White" → two-tone);
   names with no colour word ("Ferrari edition") show the name only.
 - The detail error message covers "not available" and "server not answering", because a 500 means either.

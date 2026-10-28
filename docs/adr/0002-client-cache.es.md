@@ -20,9 +20,9 @@ importa al usuario, no solo al API.
 
 ## Decisión
 
-- `cache/ttlCache.ts`: un mapa en memoria delante de `localStorage`. Cada entrada guarda su propio `expiresAt`,
-  fijado al escribirla, así que una recarga mantiene la caducidad original. Una entrada caducada se borra y se vuelve
-  a pedir.
+- `shared/cache/ttlCache.ts`: un mapa en memoria delante de `localStorage`. Cada entrada guarda su propio `expiresAt`,
+  fijado al escribirla, así que una recarga mantiene la caducidad original. Una entrada caducada obliga a volver a
+  pedirla (y mientras tanto se puede seguir mostrando, ver más abajo).
 - Claves: `products` y `product:<id>`. Se cachea la respuesta del API tal cual; el mapeo se hace al leer, así que
   cambiar el mapper nunca obliga a migrar la caché.
 - Las llamadas simultáneas a la misma clave comparten una sola petición en vuelo (la página de detalle y su miga

@@ -1,11 +1,10 @@
 import type { RouteObject } from 'react-router'
-import type { CrumbHandle } from '../components/Breadcrumbs'
-import { Layout } from '../components/Layout'
-import { NotFoundPage } from '../components/NotFoundPage'
-import { RouteError } from '../components/RouteError'
-import { ProductListPage } from '../features/catalog/ProductListPage'
-import { ProductCrumb } from '../features/product/ProductCrumb'
-import { ProductDetailPage } from '../features/product/ProductDetailPage'
+import type { CrumbHandle } from '@/app/layout/Breadcrumbs/Breadcrumbs'
+import { Layout } from '@/app/layout/Layout/Layout'
+import { NotFoundPage } from '@/app/pages/NotFoundPage'
+import { RouteError } from '@/app/pages/RouteError'
+import { ProductListPage } from '@/features/catalog'
+import { ProductCrumb, ProductDetailPage } from '@/features/product'
 
 const productCrumb: CrumbHandle = {
   crumb: (params) => <ProductCrumb id={params.id ?? ''} />,

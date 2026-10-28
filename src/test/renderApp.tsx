@@ -1,11 +1,11 @@
 import { render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { createMemoryRouter, RouterProvider } from 'react-router'
-import { createShopApi, type ShopApi } from '../api/shopApi'
-import { AppProviders } from '../app/AppProviders'
-import { routes } from '../app/routes'
-import { createTtlCache } from '../cache/ttlCache'
-import { config } from '../config'
+import { createShopApi, type ShopApi } from '@/shared/api/shopApi'
+import { AppProviders } from '@/app/providers/AppProviders'
+import { routes } from '@/app/routes'
+import { createTtlCache } from '@/shared/cache/ttlCache'
+import { config } from '@/config'
 
 export function createTestApi(): ShopApi {
   return createShopApi({

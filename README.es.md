@@ -65,25 +65,42 @@ flowchart LR
     end
     router --> catalog & product
     product -->|añadir| cart
-    catalog & product -->|useQuery| mapper[domain/productMapper<br/>rarezas del API → modelo de vista]
-    mapper --> api[api/shopApi<br/>fetch, peticiones compartidas]
+    catalog & product -->|useQuery| mapper[shared/domain/productMapper<br/>rarezas del API → modelo de vista]
+    mapper --> api[shared/api/shopApi<br/>fetch, peticiones compartidas]
     cart --> api
-    api --> cache[(cache/ttlCache<br/>memoria + localStorage, 1 h)]
+    api --> cache[(shared/cache/ttlCache<br/>memoria + localStorage, 1 h)]
     api --> remote[(API ITX)]
     cart --> storage[(localStorage<br/>contador de cesta)]
 ```
 
-| Carpeta          | Contenido                                                                                      |
-| ---------------- | ---------------------------------------------------------------------------------------------- |
-| `src/app`        | App, rutas, providers, contexto del API                                                        |
-| `src/api`        | Cliente HTTP, `ShopApi` (lecturas cacheadas, POST de la cesta), tipos del API, hook `useQuery` |
-| `src/cache`      | Caché TTL de dos capas                                                                         |
-| `src/domain`     | Tipos del modelo de vista, mapper de los datos del API, muestras de color                      |
-| `src/features`   | `catalog` (listado, tarjeta, búsqueda), `product` (detalle, descripción, selectores), `cart`   |
-| `src/components` | Cabecera, migas, contador, layout, skeleton, errores, imagen de producto, iconos               |
-| `src/styles`     | Tokens de diseño y estilos globales                                                            |
-| `src/test`       | Servidor y handlers de MSW, **fixtures reales del API**, helper de render                      |
-| `design/`        | Exportación de Claude Design (tablero de tokens, tableros de listado y detalle)                |
+```
+src/
+├── app/                    composición: App, rutas, providers, layout, páginas de la app
+│   ├── layout/             Layout, Header, Breadcrumbs
+│   ├── pages/              NotFoundPage, RouteError (error boundary)
+│   └── providers/          AppProviders
+├── features/               una carpeta por feature, cada una con un index.ts público
+│   ├── catalog/            pages/ProductListPage · components/{ProductCard, SearchBar, EmptySearch}
+│   │                       hooks/{useProducts, useProductSearch} · model/searchProducts
+│   ├── product/            pages/ProductDetailPage · components/{ProductDescription, ProductActions,
+│   │                       OptionSelector, ProductCrumb} · hooks/useProduct
+│   └── cart/               components/CartBadge · context/{CartContext, CartProvider} · model/{cartReducer, cartStorage}
+├── shared/                 capa base, no sabe nada de las features
+│   ├── api/                cliente HTTP, ShopApi, tipos del API, useQuery, ApiContext
+│   ├── cache/              ttlCache
+│   ├── domain/             tipos del modelo de vista, productMapper, colorSwatch
+│   └── ui/                 ErrorMessage, Skeleton, ProductImage, SlowLoadNotice, icons
+├── styles/                 tokens de diseño y estilos globales
+├── test/                   servidor y handlers de MSW, fixtures reales del API, helper renderApp
+├── config.ts               configuración por entorno con valores por defecto
+└── main.tsx
+e2e/                        tests e2e de Playwright
+design/                     exportación de Claude Design
+```
+
+Cada componente vive en su carpeta con sus estilos y tests. Los imports usan el alias `@/`. Las dependencias van en
+un solo sentido, `app → features → shared`, y una feature usa otra solo a través de su `index.ts`; el lint lo
+obliga (ADR 9).
 
 ## Decisiones de diseño
 
@@ -97,6 +114,7 @@ Resumen en [docs/DECISIONS.es.md](docs/DECISIONS.es.md); cada una tiene un ADR e
 - **Tokens de Claude Design + CSS Modules**, sin librería de UI.
 - **Tests de la app entera sobre datos grabados del API**, más una pasada de QA en navegador real.
 - **oxlint** en lugar de ESLint, que no admite la toolchain actual.
+- **Carpetas por feature con dependencias en un solo sentido** (`app → features → shared`), obligadas por el lint.
 
 ## El API real, tal como es
 
@@ -107,7 +125,7 @@ El enunciado muestra ejemplos tipo `id: 0001`; el API real es distinto. Cada pun
 | ---------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
 | `price` es un string, vacío en 6 productos                                         | "Precio no disponible", nunca "€" ni NaN                                                               |
 | `displayResolution` y `displaySize` cruzados en todos los productos                | La resolución se toma del campo que casa con `W x H pixels`                                            |
-| Claves `dimentions`, `secondaryCmera`                                              | Mapeadas de forma explícita, tipadas en `api/types.ts`                                                 |
+| Claves `dimentions`, `secondaryCmera`                                              | Mapeadas de forma explícita, tipadas en `shared/api/types.ts`                                          |
 | Campos que son string o array (partidos por comas)                                 | Se vuelven a unir con ", "                                                                             |
 | Valores ausentes como `""` o `"-"`                                                 | "No disponible"                                                                                        |
 | Un id inexistente responde **500**, no 404                                         | Error amable con reintento y enlace al listado                                                         |

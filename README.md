@@ -64,25 +64,42 @@ flowchart LR
     end
     router --> catalog & product
     product -->|add| cart
-    catalog & product -->|useQuery| mapper[domain/productMapper<br/>API quirks → view model]
-    mapper --> api[api/shopApi<br/>fetch, in-flight dedupe]
+    catalog & product -->|useQuery| mapper[shared/domain/productMapper<br/>API quirks → view model]
+    mapper --> api[shared/api/shopApi<br/>fetch, in-flight dedupe]
     cart --> api
-    api --> cache[(cache/ttlCache<br/>memory + localStorage, 1 h)]
+    api --> cache[(shared/cache/ttlCache<br/>memory + localStorage, 1 h)]
     api --> remote[(ITX API)]
     cart --> storage[(localStorage<br/>cart count)]
 ```
 
-| Folder           | Content                                                                            |
-| ---------------- | ---------------------------------------------------------------------------------- |
-| `src/app`        | App, routes, providers, API context                                                |
-| `src/api`        | HTTP client, `ShopApi` (cached reads, cart post), raw API types, `useQuery` hook   |
-| `src/cache`      | Two-layer TTL cache                                                                |
-| `src/domain`     | View-model types, mapper for the API's data, colour swatches                       |
-| `src/features`   | `catalog` (list, card, search), `product` (detail, description, selectors), `cart` |
-| `src/components` | Header, breadcrumbs, cart badge, layout, skeleton, errors, product image, icons    |
-| `src/styles`     | Design tokens and global styles                                                    |
-| `src/test`       | MSW server and handlers, **real API fixtures**, render helper                      |
-| `design/`        | Claude Design export (token board, list and detail boards)                         |
+```
+src/
+├── app/                    composition: App, routes, providers, layout, app-level pages
+│   ├── layout/             Layout, Header, Breadcrumbs
+│   ├── pages/              NotFoundPage, RouteError (error boundary)
+│   └── providers/          AppProviders
+├── features/               one folder per feature, each with a public index.ts
+│   ├── catalog/            pages/ProductListPage · components/{ProductCard, SearchBar, EmptySearch}
+│   │                       hooks/{useProducts, useProductSearch} · model/searchProducts
+│   ├── product/            pages/ProductDetailPage · components/{ProductDescription, ProductActions,
+│   │                       OptionSelector, ProductCrumb} · hooks/useProduct
+│   └── cart/               components/CartBadge · context/{CartContext, CartProvider} · model/{cartReducer, cartStorage}
+├── shared/                 base layer, knows nothing about features
+│   ├── api/                HTTP client, ShopApi, raw API types, useQuery, ApiContext
+│   ├── cache/              ttlCache
+│   ├── domain/             view-model types, productMapper, colorSwatch
+│   └── ui/                 ErrorMessage, Skeleton, ProductImage, SlowLoadNotice, icons
+├── styles/                 design tokens and global styles
+├── test/                   MSW server and handlers, real API fixtures, renderApp helper
+├── config.ts               environment configuration with defaults
+└── main.tsx
+e2e/                        Playwright smoke tests
+design/                     Claude Design export
+```
+
+Each component lives in its own folder with its styles and tests. Imports use the `@/` alias. Dependencies point
+one way, `app → features → shared`, and a feature uses another only through its `index.ts`; lint enforces it
+(ADR 9).
 
 ## Design decisions
 
@@ -96,6 +113,7 @@ Summary in [docs/DECISIONS.md](docs/DECISIONS.md); each one has an ADR in [docs/
 - **Claude Design tokens + CSS Modules**, no UI library.
 - **Whole-app tests over recorded API data**, plus a real-browser QA pass.
 - **oxlint** instead of ESLint, which does not support the current toolchain.
+- **Feature folders with one-way dependencies** (`app → features → shared`), enforced by lint.
 
 ## The real API, as found
 
@@ -106,7 +124,7 @@ The statement shows `id: 0001`-style examples; the real API differs. Each point 
 | ------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
 | `price` is a string, empty in 6 products                                        | "Precio no disponible", never "€" or NaN                                                           |
 | `displayResolution` and `displaySize` swapped in all products                   | Resolution taken from the field that matches `W x H pixels`                                        |
-| Keys `dimentions`, `secondaryCmera`                                             | Mapped explicitly, typed in `api/types.ts`                                                         |
+| Keys `dimentions`, `secondaryCmera`                                             | Mapped explicitly, typed in `shared/api/types.ts`                                                  |
 | Fields sometimes string, sometimes array (split on commas)                      | Joined back with ", "                                                                              |
 | Missing values as `""` or `"-"`                                                 | "No disponible"                                                                                    |
 | Unknown product id answers **500**, not 404                                     | Friendly error with retry and a link to the list                                                   |

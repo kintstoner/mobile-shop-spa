@@ -23,5 +23,87 @@
       }
     ]
   },
-  "ignorePatterns": ["dist", "design"]
+  "ignorePatterns": ["dist", "design"],
+  "overrides": [
+    {
+      "files": ["src/shared/**"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": ["@/features/*", "@/app/*"],
+                "message": "shared/ is the base layer: it must not import from features/ or app/ (ADR 9)."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["src/features/cart/**"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": ["@/features/catalog/**", "@/features/product/**", "@/app/*"],
+                "message": "Import another feature through its public index (@/features/<name>), never its internals, and never from app/ (ADR 9)."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["src/features/catalog/**"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": ["@/features/cart/**", "@/features/product/**", "@/app/*"],
+                "message": "Import another feature through its public index (@/features/<name>), never its internals, and never from app/ (ADR 9)."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["src/features/product/**"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": ["@/features/cart/**", "@/features/catalog/**", "@/app/*"],
+                "message": "Import another feature through its public index (@/features/<name>), never its internals, and never from app/ (ADR 9)."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["src/app/**"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": ["@/features/*/**"],
+                "message": "Use the feature's public index (@/features/<name>) instead of its internals (ADR 9)."
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
 }

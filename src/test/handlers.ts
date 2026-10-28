@@ -1,7 +1,7 @@
 import { http, HttpResponse } from 'msw'
-import { config } from '../config'
-import productDetails from './fixtures/productDetails.json'
-import products from './fixtures/products.json'
+import { config } from '@/config'
+import productDetails from '@/test/fixtures/productDetails.json'
+import products from '@/test/fixtures/products.json'
 
 const API = config.apiBaseUrl
 

@@ -21,12 +21,12 @@ Al analizar los 100 productos reales se vio que los datos del API no se pueden p
 
 ## Decisión
 
-- Los componentes nunca leen tipos del API. `domain/productMapper.ts` los convierte en `ProductSummary` /
+- Los componentes nunca leen tipos del API. `shared/domain/productMapper.ts` los convierte en `ProductSummary` /
   `ProductDetail`: arrays unidos con ", " (que recupera la frase original), `""`/`"-"` → ausente ("No disponible" en
   la interfaz), precio formateado con `Intl` o null ("Precio no disponible", nunca "€" ni NaN), resolución tomada del
   campo que casa con `W x H pixels`, cámaras como líneas "Principal / Frontal", " g" añadido a los pesos sin unidad,
   opciones en blanco con el nombre "Sin especificar".
-- Las claves con erratas se mapean de forma explícita y están tipadas en `api/types.ts`; no se deduce ningún nombre
+- Las claves con erratas se mapean de forma explícita y están tipadas en `shared/api/types.ts`; no se deduce ningún nombre
   del PDF.
 - Las muestras de color salen de palabras de color en el nombre ("Titanium Gray" → gris, "Black/White" → bicolor);
   los nombres sin color ("Ferrari edition") muestran solo el nombre.
