@@ -1,0 +1,104 @@
+{
+  "app": {
+    "homeLink": "mobileshop, go to the product list",
+    "skipToContent": "Skip to content",
+    "pageTitle": "{{title}} · mobileshop"
+  },
+  "language": {
+    "label": "Language",
+    "es": "Español",
+    "en": "English"
+  },
+  "breadcrumbs": {
+    "label": "Breadcrumbs",
+    "home": "Home",
+    "loading": "Loading…",
+    "product": "Product"
+  },
+  "cart": {
+    "itemsInCart": "Items in the cart:"
+  },
+  "catalog": {
+    "title": "Phones and tablets",
+    "count_one": "{{count}} product",
+    "count_other": "{{count}} products",
+    "results_one": "{{count}} result of {{total}}",
+    "results_other": "{{count}} results of {{total}}",
+    "listLabel": "Products",
+    "loading": "Loading products",
+    "loadingText": "Loading products…",
+    "noPrice": "Price not available",
+    "error": {
+      "title": "We could not load the products",
+      "text": "Check your connection and try again."
+    },
+    "search": {
+      "label": "Search by brand or model",
+      "placeholder": "Search brand or model",
+      "clear": "Clear search"
+    },
+    "empty": {
+      "title": "No results for “{{query}}”",
+      "text": "Check the spelling or search only by brand or part of the model, for example “Liquid” or “Iconia”.",
+      "clear": "Clear search"
+    }
+  },
+  "product": {
+    "back": "Back to the list",
+    "loading": "Loading product",
+    "loadingText": "Loading product…",
+    "imageRegion": "Product image",
+    "noPrice": "Price not available",
+    "specsTitle": "Specifications",
+    "notAvailable": "Not available",
+    "specs": {
+      "cpu": "CPU",
+      "ram": "RAM",
+      "os": "Operating system",
+      "resolution": "Screen resolution",
+      "battery": "Battery",
+      "cameras": "Cameras",
+      "dimensions": "Dimensions",
+      "weight": "Weight"
+    },
+    "camera": {
+      "main": "Main: {{value}}",
+      "front": "Front: {{value}}"
+    },
+    "error": {
+      "title": "We could not load this product",
+      "text": "It may no longer be available or the server is not answering. Try again or go back to the list."
+    }
+  },
+  "actions": {
+    "title": "Purchase options",
+    "storage": "Storage",
+    "color": "Colour",
+    "onlyOption": "Only option available",
+    "unspecified": "Not specified",
+    "add": "Add to cart",
+    "adding": "Adding…",
+    "added": "Added to cart",
+    "choose": {
+      "storage": "Choose the storage to continue.",
+      "color": "Choose a colour to continue.",
+      "both": "Choose the storage and a colour to continue."
+    },
+    "willAdd": "You will add: {{storage}} · {{color}}",
+    "addedMessage_one": "{{model}} · {{storage}} · {{color}} added. You have {{count}} item in the cart.",
+    "addedMessage_other": "{{model}} · {{storage}} · {{color}} added. You have {{count}} items in the cart.",
+    "failed": "It could not be added. Please try again."
+  },
+  "errors": {
+    "retry": "Try again",
+    "allProducts": "See all products",
+    "unexpectedTitle": "Something went wrong",
+    "unexpectedText": "An unexpected error happened while showing this page.",
+    "reload": "Reload the page"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "text": "This address does not match any page of the shop."
+  },
+  "slowLoad": "The server is starting up. The first load can take up to a minute."
+}

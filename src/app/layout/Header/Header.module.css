@@ -61,8 +61,11 @@
   align-self: start;
 }
 
-.cart {
+.tools {
   grid-area: cart;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
 }
 
 @media (min-width: 480px) {

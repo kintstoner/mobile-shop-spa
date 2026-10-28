@@ -1,10 +1,12 @@
 import { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Link, useRouteError } from 'react-router'
 import { ErrorMessage } from '@/shared/ui/ErrorMessage/ErrorMessage'
 import styles from './PageMessage.module.css'
 
 /** Route error boundary: a rendering bug shows a way out instead of a blank page. */
 export function RouteError() {
+  const { t } = useTranslation()
   const error = useRouteError()
 
   useEffect(() => {
@@ -15,7 +17,7 @@ export function RouteError() {
     <main id="main" tabIndex={-1} className={styles.page}>
       <ErrorMessage
         headingLevel={1}
-        title="Algo ha fallado"
+        title={t('errors.unexpectedTitle')}
         actions={
           <>
             <button
@@ -23,15 +25,15 @@ export function RouteError() {
               className={styles.primary}
               onClick={() => window.location.reload()}
             >
-              Recargar la página
+              {t('errors.reload')}
             </button>
             <Link to="/" className={styles.secondary}>
-              Ver todos los productos
+              {t('errors.allProducts')}
             </Link>
           </>
         }
       >
-        Se ha producido un error inesperado al mostrar esta página.
+        {t('errors.unexpectedText')}
       </ErrorMessage>
     </main>
   )

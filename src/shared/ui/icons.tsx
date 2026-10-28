@@ -94,6 +94,13 @@ export const MinusCircleIcon = (props: IconProps) => (
   </Icon>
 )
 
+export const GlobeIcon = (props: IconProps) => (
+  <Icon size={16} {...props}>
+    <circle cx="12" cy="12" r="9" />
+    <path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18" />
+  </Icon>
+)
+
 export const AlertIcon = (props: IconProps) => (
   <Icon size={26} strokeWidth={1.8} {...props}>
     <circle cx="12" cy="12" r="9" />

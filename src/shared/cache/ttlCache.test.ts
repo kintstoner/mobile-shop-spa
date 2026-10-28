@@ -84,7 +84,7 @@ describe('ttlCache', () => {
     clock.advance(HOUR + DAY)
 
     expect(create().peek('product:1')).toBeUndefined()
-    expect(localStorage.length).toBe(0)
+    expect(localStorage.getItem('test:product:1')).toBeNull()
   })
 
   it('ignores corrupted storage entries', () => {

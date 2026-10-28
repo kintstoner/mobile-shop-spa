@@ -1,4 +1,5 @@
 import { useRef } from 'react'
+import { useTranslation } from 'react-i18next'
 import { CloseIcon, SearchIcon } from '@/shared/ui/icons'
 import styles from './SearchBar.module.css'
 
@@ -8,12 +9,13 @@ interface Props {
 }
 
 export function SearchBar({ value, onChange }: Props) {
+  const { t } = useTranslation()
   const input = useRef<HTMLInputElement>(null)
 
   return (
     <search className={styles.search}>
       <label htmlFor="product-search" className="visually-hidden">
-        Buscar por marca o modelo
+        {t('catalog.search.label')}
       </label>
       <SearchIcon className={styles.icon} />
       <input
@@ -21,7 +23,7 @@ export function SearchBar({ value, onChange }: Props) {
         id="product-search"
         type="search"
         className={styles.input}
-        placeholder="Buscar marca o modelo"
+        placeholder={t('catalog.search.placeholder')}
         autoComplete="off"
         spellCheck={false}
         value={value}
@@ -31,7 +33,7 @@ export function SearchBar({ value, onChange }: Props) {
         <button
           type="button"
           className={styles.clear}
-          aria-label="Limpiar búsqueda"
+          aria-label={t('catalog.search.clear')}
           onClick={() => {
             onChange('')
             input.current?.focus()

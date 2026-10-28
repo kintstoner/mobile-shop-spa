@@ -19,7 +19,13 @@
     "import/no-unassigned-import": [
       "warn",
       {
-        "allow": ["**/*.css", "@fontsource-variable/*", "@testing-library/jest-dom/vitest"]
+        "allow": [
+          "**/*.css",
+          "@fontsource-variable/*",
+          "@testing-library/jest-dom/vitest",
+          "@/shared/i18n/i18n",
+          "i18next"
+        ]
       }
     ]
   },

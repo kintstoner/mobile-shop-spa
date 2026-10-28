@@ -12,6 +12,8 @@ export default defineConfig({
   use: {
     baseURL: `http://localhost:${PORT}`,
     trace: 'on-first-retry',
+    // The app follows the browser language; the smoke tests read the Spanish interface.
+    locale: 'es-ES',
   },
   webServer: {
     command: `npm run build && npm run preview -- --port ${PORT} --strictPort`,

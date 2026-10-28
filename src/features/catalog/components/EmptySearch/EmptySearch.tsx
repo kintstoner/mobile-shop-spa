@@ -1,22 +1,21 @@
+import { useTranslation } from 'react-i18next'
 import { CloseIcon, NoResultsIcon } from '@/shared/ui/icons'
 import styles from './EmptySearch.module.css'
 
 export function EmptySearch({ query, onClear }: { query: string; onClear: () => void }) {
+  const { t } = useTranslation()
   return (
     <section aria-labelledby="empty-search-title" className={styles.box}>
       <span aria-hidden="true" className={styles.icon}>
         <NoResultsIcon />
       </span>
       <h2 id="empty-search-title" className={styles.title}>
-        Sin resultados para «{query}»
+        {t('catalog.empty.title', { query })}
       </h2>
-      <p className={styles.text}>
-        Revisa cómo está escrito o busca solo por la marca o por parte del modelo, por ejemplo
-        «Liquid» o «Iconia».
-      </p>
+      <p className={styles.text}>{t('catalog.empty.text')}</p>
       <button type="button" className={styles.clear} onClick={onClear}>
         <CloseIcon />
-        Limpiar búsqueda
+        {t('catalog.empty.clear')}
       </button>
     </section>
   )

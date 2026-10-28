@@ -1,0 +1,104 @@
+{
+  "app": {
+    "homeLink": "mobileshop, ir al listado",
+    "skipToContent": "Saltar al contenido",
+    "pageTitle": "{{title}} · mobileshop"
+  },
+  "language": {
+    "label": "Idioma",
+    "es": "Español",
+    "en": "English"
+  },
+  "breadcrumbs": {
+    "label": "Migas de pan",
+    "home": "Inicio",
+    "loading": "Cargando…",
+    "product": "Producto"
+  },
+  "cart": {
+    "itemsInCart": "Artículos en la cesta:"
+  },
+  "catalog": {
+    "title": "Móviles y tablets",
+    "count_one": "{{count}} producto",
+    "count_other": "{{count}} productos",
+    "results_one": "{{count}} resultado de {{total}}",
+    "results_other": "{{count}} resultados de {{total}}",
+    "listLabel": "Productos",
+    "loading": "Cargando productos",
+    "loadingText": "Cargando productos…",
+    "noPrice": "Precio no disponible",
+    "error": {
+      "title": "No hemos podido cargar los productos",
+      "text": "Comprueba tu conexión e inténtalo de nuevo."
+    },
+    "search": {
+      "label": "Buscar por marca o modelo",
+      "placeholder": "Buscar marca o modelo",
+      "clear": "Limpiar búsqueda"
+    },
+    "empty": {
+      "title": "Sin resultados para «{{query}}»",
+      "text": "Revisa cómo está escrito o busca solo por la marca o por parte del modelo, por ejemplo «Liquid» o «Iconia».",
+      "clear": "Limpiar búsqueda"
+    }
+  },
+  "product": {
+    "back": "Volver al listado",
+    "loading": "Cargando producto",
+    "loadingText": "Cargando producto…",
+    "imageRegion": "Imagen del producto",
+    "noPrice": "Precio no disponible",
+    "specsTitle": "Especificaciones",
+    "notAvailable": "No disponible",
+    "specs": {
+      "cpu": "CPU",
+      "ram": "RAM",
+      "os": "Sistema operativo",
+      "resolution": "Resolución de pantalla",
+      "battery": "Batería",
+      "cameras": "Cámaras",
+      "dimensions": "Dimensiones",
+      "weight": "Peso"
+    },
+    "camera": {
+      "main": "Principal: {{value}}",
+      "front": "Frontal: {{value}}"
+    },
+    "error": {
+      "title": "No hemos podido cargar este producto",
+      "text": "Puede que ya no esté disponible o que el servidor no responda. Inténtalo de nuevo o vuelve al listado."
+    }
+  },
+  "actions": {
+    "title": "Opciones de compra",
+    "storage": "Almacenamiento",
+    "color": "Color",
+    "onlyOption": "Única opción disponible",
+    "unspecified": "Sin especificar",
+    "add": "Añadir a la cesta",
+    "adding": "Añadiendo…",
+    "added": "Añadido a la cesta",
+    "choose": {
+      "storage": "Selecciona almacenamiento para continuar.",
+      "color": "Selecciona color para continuar.",
+      "both": "Selecciona almacenamiento y color para continuar."
+    },
+    "willAdd": "Se añadirá: {{storage}} · {{color}}",
+    "addedMessage_one": "{{model}} · {{storage}} · {{color}} añadido. Tienes {{count}} artículo en la cesta.",
+    "addedMessage_other": "{{model}} · {{storage}} · {{color}} añadido. Tienes {{count}} artículos en la cesta.",
+    "failed": "No se ha podido añadir. Inténtalo de nuevo."
+  },
+  "errors": {
+    "retry": "Reintentar",
+    "allProducts": "Ver todos los productos",
+    "unexpectedTitle": "Algo ha fallado",
+    "unexpectedText": "Se ha producido un error inesperado al mostrar esta página.",
+    "reload": "Recargar la página"
+  },
+  "notFound": {
+    "title": "Página no encontrada",
+    "text": "La dirección no corresponde a ninguna página de la tienda."
+  },
+  "slowLoad": "El servidor está arrancando. La primera carga puede tardar hasta un minuto."
+}

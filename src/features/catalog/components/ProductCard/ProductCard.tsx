@@ -1,11 +1,15 @@
+import { useTranslation } from 'react-i18next'
 import { Link, useLocation } from 'react-router'
+import type { ProductPageState } from '@/features/product'
+import type { ProductSummary } from '@/shared/domain/types'
+import { useFormatPrice } from '@/shared/i18n/useFormatPrice'
 import { ArrowRightIcon } from '@/shared/ui/icons'
 import { ProductImage } from '@/shared/ui/ProductImage/ProductImage'
-import type { ProductSummary } from '@/shared/domain/types'
-import type { ProductPageState } from '@/features/product'
 import styles from './ProductCard.module.css'
 
 export function ProductCard({ product }: { product: ProductSummary }) {
+  const { t } = useTranslation()
+  const formatPrice = useFormatPrice()
   const { search } = useLocation()
   const state: ProductPageState = { fromList: search }
 
@@ -20,10 +24,10 @@ export function ProductCard({ product }: { product: ProductSummary }) {
         <span className={styles.brand}>{product.brand}</span>{' '}
         <span className={styles.model}>{product.model}</span>{' '}
         <div className={styles.footer}>
-          {product.price ? (
-            <span className={styles.price}>{product.price}</span>
+          {product.price === null ? (
+            <span className={styles.noPrice}>{t('catalog.noPrice')}</span>
           ) : (
-            <span className={styles.noPrice}>Precio no disponible</span>
+            <span className={styles.price}>{formatPrice(product.price)}</span>
           )}
           <span className={styles.go} aria-hidden="true">
             <ArrowRightIcon />

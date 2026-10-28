@@ -1,8 +1,9 @@
 import type { ReactNode } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Link, useMatches, type Params } from 'react-router'
 import styles from './Breadcrumbs.module.css'
 
-/** Route `handle` contract: a route that adds a crumb after "Inicio". */
+/** Route `handle` contract: a route that adds a crumb after the home link. */
 export interface CrumbHandle {
   crumb: (params: Params) => ReactNode
 }
@@ -12,6 +13,7 @@ function isCrumbHandle(handle: unknown): handle is CrumbHandle {
 }
 
 export function Breadcrumbs({ className }: { className?: string }) {
+  const { t } = useTranslation()
   const matches = useMatches()
   const crumbs = matches.flatMap((match) =>
     isCrumbHandle(match.handle) ? [{ id: match.id, node: match.handle.crumb(match.params) }] : [],
@@ -19,7 +21,7 @@ export function Breadcrumbs({ className }: { className?: string }) {
   const onHome = crumbs.length === 0
 
   return (
-    <nav aria-label="Migas de pan" className={`${styles.nav} ${className ?? ''}`}>
+    <nav aria-label={t('breadcrumbs.label')} className={`${styles.nav} ${className ?? ''}`}>
       <ol className={styles.list}>
         <li className={styles.item}>
           <Link
@@ -27,7 +29,7 @@ export function Breadcrumbs({ className }: { className?: string }) {
             className={onHome ? styles.current : styles.link}
             aria-current={onHome ? 'page' : undefined}
           >
-            Inicio
+            {t('breadcrumbs.home')}
           </Link>
         </li>
         {crumbs.map((crumb) => (

@@ -1,5 +1,6 @@
-import { CheckIcon } from '@/shared/ui/icons'
+import { useTranslation } from 'react-i18next'
 import type { ProductOption } from '@/shared/domain/types'
+import { CheckIcon } from '@/shared/ui/icons'
 import styles from './OptionSelector.module.css'
 
 interface Props {
@@ -13,14 +14,16 @@ interface Props {
 
 /** Native radio group drawn as chips: arrow keys, focus and group semantics come for free. */
 export function OptionSelector({ name, legend, options, selected, onSelect, swatch }: Props) {
+  const { t } = useTranslation()
   const single = options.length === 1
-  const selectedName = options.find((option) => option.code === selected)?.name
+  const label = (option: ProductOption) => option.name ?? t('actions.unspecified')
+  const selectedOption = options.find((option) => option.code === selected)
 
   return (
     <fieldset className={styles.fieldset}>
       <legend className={styles.legend}>
         {legend}
-        {selectedName && <span className={styles.current}>{selectedName}</span>}
+        {selectedOption && <span className={styles.current}>{label(selectedOption)}</span>}
       </legend>
       <div className={styles.options}>
         {options.map((option) => {
@@ -47,11 +50,11 @@ export function OptionSelector({ name, legend, options, selected, onSelect, swat
                 />
               )}
               {!swatch && checked && <CheckIcon />}
-              {option.name}
+              {label(option)}
             </label>
           )
         })}
-        {single && <span className={styles.note}>Única opción disponible</span>}
+        {single && <span className={styles.note}>{t('actions.onlyOption')}</span>}
       </div>
     </fieldset>
   )

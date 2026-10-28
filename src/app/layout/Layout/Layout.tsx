@@ -1,12 +1,14 @@
+import { useTranslation } from 'react-i18next'
 import { Outlet, ScrollRestoration } from 'react-router'
 import { Header } from '@/app/layout/Header/Header'
 import styles from './Layout.module.css'
 
 export function Layout() {
+  const { t } = useTranslation()
   return (
     <>
       <a href="#main" className={styles.skipLink}>
-        Saltar al contenido
+        {t('app.skipToContent')}
       </a>
       <Header />
       <Outlet />

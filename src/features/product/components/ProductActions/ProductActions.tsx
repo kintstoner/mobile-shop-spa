@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { BagIcon, CheckIcon, SpinnerIcon } from '@/shared/ui/icons'
 import { colorSwatch } from '@/shared/domain/colorSwatch'
 import type { ProductDetail, ProductOption } from '@/shared/domain/types'
@@ -13,6 +14,7 @@ const FEEDBACK_MS = 2000
 const onlyOption = (options: ProductOption[]) => (options.length === 1 ? options[0]!.code : null)
 
 export function ProductActions({ product }: { product: ProductDetail }) {
+  const { t } = useTranslation()
   const cart = useCart()
   const [storage, setStorage] = useState(() => onlyOption(product.storages))
   const [color, setColor] = useState(() => onlyOption(product.colors))
@@ -24,8 +26,12 @@ export function ProductActions({ product }: { product: ProductDetail }) {
     return () => clearTimeout(timer)
   }, [status])
 
-  const storageName = product.storages.find((option) => option.code === storage)?.name
-  const colorName = product.colors.find((option) => option.code === color)?.name
+  const optionLabel = (options: ProductOption[], code: number | null) => {
+    const option = options.find((candidate) => candidate.code === code)
+    return option ? (option.name ?? t('actions.unspecified')) : ''
+  }
+  const storageName = optionLabel(product.storages, storage)
+  const colorName = optionLabel(product.colors, color)
   const ready = storage !== null && color !== null
 
   const select = (setter: (code: number) => void) => (code: number) => {
@@ -44,38 +50,43 @@ export function ProductActions({ product }: { product: ProductDetail }) {
     }
   }
 
-  const missing = [storage === null && 'almacenamiento', color === null && 'color'].filter(Boolean)
-  const items = cart.count === 1 ? '1 artículo' : `${cart.count} artículos`
+  const missing =
+    storage === null && color === null ? 'both' : storage === null ? 'storage' : 'color'
   const helper = !ready
-    ? `Selecciona ${missing.join(' y ')} para continuar.`
+    ? t(`actions.choose.${missing}`)
     : status === 'added'
-      ? `${product.model} · ${storageName} · ${colorName} añadido. Tienes ${items} en la cesta.`
+      ? t('actions.addedMessage', {
+          model: product.model,
+          storage: storageName,
+          color: colorName,
+          count: cart.count,
+        })
       : status === 'failed'
-        ? 'No se ha podido añadir. Inténtalo de nuevo.'
-        : `Se añadirá: ${storageName} · ${colorName}`
+        ? t('actions.failed')
+        : t('actions.willAdd', { storage: storageName, color: colorName })
 
   const visual = !ready ? 'disabled' : status
 
   return (
     <section aria-labelledby="product-actions" className={styles.actions}>
       <h2 id="product-actions" className="visually-hidden">
-        Opciones de compra
+        {t('actions.title')}
       </h2>
 
       <OptionSelector
         name="storage"
-        legend="Almacenamiento"
+        legend={t('actions.storage')}
         options={product.storages}
         selected={storage}
         onSelect={select(setStorage)}
       />
       <OptionSelector
         name="color"
-        legend="Color"
+        legend={t('actions.color')}
         options={product.colors}
         selected={color}
         onSelect={select(setColor)}
-        swatch={(option) => colorSwatch(option.name)}
+        swatch={(option) => colorSwatch(option.name ?? '')}
       />
 
       <div className={styles.footer}>
@@ -94,10 +105,10 @@ export function ProductActions({ product }: { product: ProductDetail }) {
             <BagIcon size={20} strokeWidth={2} />
           )}
           {status === 'adding'
-            ? 'Añadiendo…'
+            ? t('actions.adding')
             : status === 'added'
-              ? 'Añadido a la cesta'
-              : 'Añadir a la cesta'}
+              ? t('actions.added')
+              : t('actions.add')}
         </button>
         <p
           aria-live="polite"

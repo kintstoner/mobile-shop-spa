@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import { useTranslation } from 'react-i18next'
 import styles from './ErrorMessage.module.css'
 import { AlertIcon } from '@/shared/ui/icons'
 
@@ -12,6 +13,7 @@ interface Props {
 }
 
 export function ErrorMessage({ title, children, onRetry, actions, headingLevel = 2 }: Props) {
+  const { t } = useTranslation()
   const Heading = headingLevel === 1 ? 'h1' : 'h2'
   return (
     <section role="alert" className={styles.box}>
@@ -23,7 +25,7 @@ export function ErrorMessage({ title, children, onRetry, actions, headingLevel =
       <div className={styles.actions}>
         {onRetry && (
           <button type="button" className={styles.retry} onClick={onRetry}>
-            Reintentar
+            {t('errors.retry')}
           </button>
         )}
         {actions}

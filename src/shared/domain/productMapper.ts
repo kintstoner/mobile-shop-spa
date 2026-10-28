@@ -1,25 +1,10 @@
 import type { ApiOption, ApiProductDetail, ApiProductSummary, ApiText } from '@/shared/api/types'
-import type { ProductDetail, ProductOption, ProductSummary } from './types'
-
-const euros = new Intl.NumberFormat('es-ES', {
-  style: 'currency',
-  currency: 'EUR',
-  maximumFractionDigits: 2,
-  minimumFractionDigits: 0,
-})
+import { parsePrice } from './price'
+import type { Cameras, ProductDetail, ProductOption, ProductSummary } from './types'
 
 const PIXELS = /\d+\s*x\s*\d+\s*pixels/i
 const BARE_NUMBER = /^\d+(\.\d+)?$/
 const MISSING = new Set(['', '-'])
-
-/** The API sends prices as strings and leaves some of them empty; never show "€" or NaN. */
-export function formatPrice(raw: string): string | null {
-  const trimmed = raw.trim()
-  const value = Number(trimmed)
-  if (trimmed === '' || !Number.isFinite(value)) return null
-  // Intl uses a non-breaking space before the symbol; a plain space keeps text matching simple.
-  return euros.format(value).replace(/\s/g, ' ')
-}
 
 /**
  * string | string[] | "" → readable text or null. Arrays are the API's own split of a
@@ -38,11 +23,10 @@ function resolution(api: ApiProductDetail): string | null {
   return candidates.find((value) => value && PIXELS.test(value)) ?? candidates[0] ?? null
 }
 
-function cameras(api: ApiProductDetail): string | null {
+function cameras(api: ApiProductDetail): Cameras | null {
   const main = toText(api.primaryCamera)
   const front = toText(api.secondaryCmera)
-  const lines = [main && `Principal: ${main}`, front && `Frontal: ${front}`].filter(Boolean)
-  return lines.length > 0 ? lines.join('\n') : null
+  return main || front ? { main, front } : null
 }
 
 function weight(api: ApiProductDetail): string | null {
@@ -51,7 +35,7 @@ function weight(api: ApiProductDetail): string | null {
 }
 
 function toOption(option: ApiOption): ProductOption {
-  return { code: option.code, name: option.name.trim() || 'Sin especificar' }
+  return { code: option.code, name: option.name.trim() || null }
 }
 
 export function toProductSummary(api: ApiProductSummary): ProductSummary {
@@ -59,7 +43,7 @@ export function toProductSummary(api: ApiProductSummary): ProductSummary {
     id: api.id,
     brand: api.brand,
     model: api.model,
-    price: formatPrice(api.price),
+    price: parsePrice(api.price),
     imageUrl: api.imgUrl,
   }
 }
@@ -68,14 +52,14 @@ export function toProductDetail(api: ApiProductDetail): ProductDetail {
   return {
     ...toProductSummary(api),
     specs: [
-      { label: 'CPU', value: toText(api.cpu) },
-      { label: 'RAM', value: toText(api.ram) },
-      { label: 'Sistema operativo', value: toText(api.os) },
-      { label: 'Resolución de pantalla', value: resolution(api) },
-      { label: 'Batería', value: toText(api.battery) },
-      { label: 'Cámaras', value: cameras(api) },
-      { label: 'Dimensiones', value: toText(api.dimentions) },
-      { label: 'Peso', value: weight(api) },
+      { id: 'cpu', value: toText(api.cpu) },
+      { id: 'ram', value: toText(api.ram) },
+      { id: 'os', value: toText(api.os) },
+      { id: 'resolution', value: resolution(api) },
+      { id: 'battery', value: toText(api.battery) },
+      { id: 'cameras', value: cameras(api) },
+      { id: 'dimensions', value: toText(api.dimentions) },
+      { id: 'weight', value: weight(api) },
     ],
     colors: (api.options?.colors ?? []).map(toOption),
     storages: (api.options?.storages ?? []).map(toOption),

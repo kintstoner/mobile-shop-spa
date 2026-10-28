@@ -1,14 +1,15 @@
+import { useTranslation } from 'react-i18next'
 import { Link, useLocation, useParams } from 'react-router'
+import { ProductActions } from '@/features/product/components/ProductActions/ProductActions'
+import { ProductDescription } from '@/features/product/components/ProductDescription/ProductDescription'
+import { useProduct } from '@/features/product/hooks/useProduct'
+import type { ProductDetail } from '@/shared/domain/types'
 import { ErrorMessage } from '@/shared/ui/ErrorMessage/ErrorMessage'
 import { ArrowLeftIcon } from '@/shared/ui/icons'
 import { ProductImage } from '@/shared/ui/ProductImage/ProductImage'
 import { Skeleton } from '@/shared/ui/Skeleton/Skeleton'
 import { SlowLoadNotice } from '@/shared/ui/SlowLoadNotice/SlowLoadNotice'
-import type { ProductDetail } from '@/shared/domain/types'
 import styles from './ProductDetailPage.module.css'
-import { ProductActions } from '@/features/product/components/ProductActions/ProductActions'
-import { ProductDescription } from '@/features/product/components/ProductDescription/ProductDescription'
-import { useProduct } from '@/features/product/hooks/useProduct'
 
 export interface ProductPageState {
   /** Search of the list the user came from, so "back" returns to the same results. */
@@ -16,6 +17,7 @@ export interface ProductPageState {
 }
 
 export function ProductDetailPage() {
+  const { t } = useTranslation()
   const { id = '' } = useParams()
   const location = useLocation()
   const fromList = (location.state as ProductPageState | null)?.fromList ?? ''
@@ -25,23 +27,22 @@ export function ProductDetailPage() {
     <main id="main" tabIndex={-1} className={styles.page}>
       <Link to={{ pathname: '/', search: fromList }} className={styles.back}>
         <ArrowLeftIcon />
-        Volver al listado
+        {t('product.back')}
       </Link>
 
       {query.status === 'loading' && <DetailSkeleton />}
       {query.status === 'error' && (
         <ErrorMessage
           headingLevel={1}
-          title="No hemos podido cargar este producto"
+          title={t('product.error.title')}
           onRetry={query.retry}
           actions={
             <Link to="/" className={styles.secondaryAction}>
-              Ver todos los productos
+              {t('errors.allProducts')}
             </Link>
           }
         >
-          Puede que ya no esté disponible o que el servidor no responda. Inténtalo de nuevo o vuelve
-          al listado.
+          {t('product.error.text')}
         </ErrorMessage>
       )}
       {query.status === 'success' && <ProductView product={query.data} />}
@@ -50,16 +51,14 @@ export function ProductDetailPage() {
 }
 
 function ProductView({ product }: { product: ProductDetail }) {
+  const { t } = useTranslation()
+  const name = `${product.brand} ${product.model}`
   return (
     <div className={styles.layout}>
-      <title>{`${product.brand} ${product.model} · mobileshop`}</title>
-      <section aria-label="Imagen del producto" className={styles.imageColumn}>
+      <title>{t('app.pageTitle', { title: name })}</title>
+      <section aria-label={t('product.imageRegion')} className={styles.imageColumn}>
         <div className={styles.stage}>
-          <ProductImage
-            src={product.imageUrl}
-            alt={`${product.brand} ${product.model}`}
-            loading="eager"
-          />
+          <ProductImage src={product.imageUrl} alt={name} loading="eager" />
         </div>
       </section>
       <div className={styles.infoColumn}>
@@ -71,10 +70,11 @@ function ProductView({ product }: { product: ProductDetail }) {
 }
 
 function DetailSkeleton() {
+  const { t } = useTranslation()
   return (
     <div>
-      <output className="visually-hidden" aria-label="Cargando producto">
-        Cargando producto…
+      <output className="visually-hidden" aria-label={t('product.loading')}>
+        {t('product.loadingText')}
       </output>
       <SlowLoadNotice />
       <div className={styles.layout} aria-hidden="true">
