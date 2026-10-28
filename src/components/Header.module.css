@@ -1,0 +1,67 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-header);
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.inner {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--space-4);
+  height: var(--header-h-compact);
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 0 0 auto;
+  color: var(--color-text);
+  text-decoration: none;
+  border-radius: var(--radius-md);
+}
+
+.logo:hover {
+  color: var(--color-text);
+}
+
+.logoMark {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  background: var(--color-accent);
+  color: var(--color-text-on-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logoText {
+  font-size: 1.25rem;
+  font-weight: var(--font-weight-extrabold);
+  letter-spacing: -0.03em;
+}
+
+@media (min-width: 480px) {
+  .inner {
+    padding: 0 var(--space-5);
+  }
+}
+
+@media (min-width: 768px) {
+  .inner {
+    height: var(--header-h);
+    padding: 0 var(--space-6);
+  }
+}
+
+@media (min-width: 1024px) {
+  .inner {
+    padding: 0 var(--gutter);
+  }
+}

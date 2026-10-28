@@ -1,7 +1,13 @@
+import { createBrowserRouter, RouterProvider } from 'react-router'
+import { AppProviders } from './AppProviders'
+import { routes } from './routes'
+
+const router = createBrowserRouter(routes, { basename: import.meta.env.BASE_URL })
+
 export function App() {
   return (
-    <main>
-      <h1>mobileshop</h1>
-    </main>
+    <AppProviders>
+      <RouterProvider router={router} />
+    </AppProviders>
   )
 }
