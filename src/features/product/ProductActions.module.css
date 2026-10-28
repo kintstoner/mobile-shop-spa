@@ -1,0 +1,104 @@
+.actions {
+  padding: var(--space-5);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.footer {
+  padding-top: var(--space-1);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.cta {
+  width: 100%;
+  height: var(--cta-h);
+  border: 0;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-bold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: background var(--duration-fast) var(--ease-standard);
+}
+
+.idle,
+.failed {
+  background: var(--color-accent);
+  color: var(--color-text-on-accent);
+  cursor: pointer;
+}
+
+.idle:hover,
+.failed:hover {
+  background: var(--color-accent-hover);
+}
+
+.idle:active,
+.failed:active {
+  transform: translateY(1px);
+}
+
+.adding {
+  background: var(--color-accent-hover);
+  color: var(--color-text-on-accent);
+  cursor: progress;
+}
+
+.added {
+  background: var(--color-success);
+  color: var(--color-text-on-accent);
+  cursor: default;
+}
+
+.disabled {
+  background: var(--color-disabled-bg);
+  color: var(--color-disabled-text);
+  cursor: not-allowed;
+}
+
+.spin {
+  animation: spin 800ms linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.helper {
+  min-height: var(--line-height-sm);
+  font-size: 0.8125rem;
+  line-height: var(--line-height-sm);
+  font-weight: var(--font-weight-medium);
+  text-align: center;
+  color: var(--color-text-muted);
+}
+
+.success {
+  color: var(--color-success);
+}
+
+.error {
+  color: var(--color-danger);
+}
+
+@media (min-width: 768px) {
+  .actions {
+    padding: var(--space-7);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spin {
+    animation: none;
+  }
+}

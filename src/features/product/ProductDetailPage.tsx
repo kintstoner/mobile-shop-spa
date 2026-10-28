@@ -5,6 +5,7 @@ import { ProductImage } from '../../components/ProductImage'
 import { Skeleton } from '../../components/Skeleton'
 import type { ProductDetail } from '../../domain/types'
 import styles from './ProductDetailPage.module.css'
+import { ProductActions } from './ProductActions'
 import { ProductDescription } from './ProductDescription'
 import { useProduct } from './useProduct'
 
@@ -61,6 +62,7 @@ function ProductView({ product }: { product: ProductDetail }) {
       </section>
       <div className={styles.infoColumn}>
         <ProductDescription product={product} />
+        <ProductActions key={product.id} product={product} />
       </div>
     </div>
   )
