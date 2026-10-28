@@ -1,12 +1,16 @@
-import { Link } from 'react-router'
+import { Link, useLocation } from 'react-router'
 import { ArrowRightIcon } from '../../components/icons'
 import { ProductImage } from '../../components/ProductImage'
 import type { ProductSummary } from '../../domain/types'
+import type { ProductPageState } from '../product/ProductDetailPage'
 import styles from './ProductCard.module.css'
 
 export function ProductCard({ product }: { product: ProductSummary }) {
+  const { search } = useLocation()
+  const state: ProductPageState = { fromList: search }
+
   return (
-    <Link to={`/product/${encodeURIComponent(product.id)}`} className={styles.card}>
+    <Link to={`/product/${encodeURIComponent(product.id)}`} state={state} className={styles.card}>
       <div className={styles.stage}>
         {/* The link text already names the product, so the photo is decorative here. */}
         <ProductImage src={product.imageUrl} alt="" className={styles.image} />
