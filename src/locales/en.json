@@ -16,7 +16,8 @@
     "product": "Product"
   },
   "cart": {
-    "itemsInCart": "Items in the cart:"
+    "itemsInCart": "Items in the cart:",
+    "comingSoon": "Feature in progress..."
   },
   "catalog": {
     "title": "Phones and tablets",
@@ -100,5 +101,8 @@
     "title": "Page not found",
     "text": "This address does not match any page of the shop."
   },
-  "slowLoad": "The server is starting up. The first load can take up to a minute."
+  "slowLoad": "The server is starting up. The first load can take up to a minute.",
+  "toast": {
+    "close": "Close notice"
+  }
 }

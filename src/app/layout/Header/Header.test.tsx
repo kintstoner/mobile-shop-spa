@@ -64,3 +64,13 @@ describe('Header', () => {
     expect(cartStatus()).toHaveTextContent('Artículos en la cesta: 1')
   })
 })
+
+describe('Header cart button', () => {
+  it('can be pressed and says the cart is still being built', async () => {
+    const { user } = renderApp('/')
+
+    await user.click(screen.getByRole('button', { name: /Artículos en la cesta:s*0/ }))
+
+    expect(screen.getByRole('status')).toHaveTextContent('Funcionalidad en desarrollo...')
+  })
+})

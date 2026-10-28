@@ -16,7 +16,8 @@
     "product": "Producto"
   },
   "cart": {
-    "itemsInCart": "Artículos en la cesta:"
+    "itemsInCart": "Artículos en la cesta:",
+    "comingSoon": "Funcionalidad en desarrollo..."
   },
   "catalog": {
     "title": "Móviles y tablets",
@@ -100,5 +101,8 @@
     "title": "Página no encontrada",
     "text": "La dirección no corresponde a ninguna página de la tienda."
   },
-  "slowLoad": "El servidor está arrancando. La primera carga puede tardar hasta un minuto."
+  "slowLoad": "El servidor está arrancando. La primera carga puede tardar hasta un minuto.",
+  "toast": {
+    "close": "Cerrar aviso"
+  }
 }

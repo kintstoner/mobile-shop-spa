@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
 import type { ShopApi } from '@/shared/api/shopApi'
 import { CartProvider } from '@/features/cart'
+import { ToastProvider } from '@/shared/ui/Toast/ToastProvider'
 import { ApiContext, defaultShopApi } from '@/shared/api/ApiContext'
 
 export function AppProviders({
@@ -12,7 +13,9 @@ export function AppProviders({
 }) {
   return (
     <ApiContext value={api}>
-      <CartProvider>{children}</CartProvider>
+      <ToastProvider>
+        <CartProvider>{children}</CartProvider>
+      </ToastProvider>
     </ApiContext>
   )
 }

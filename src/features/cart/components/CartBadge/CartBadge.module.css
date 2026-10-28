@@ -7,7 +7,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  border: 0;
+  background: transparent;
   color: var(--color-text);
+  cursor: pointer;
+  transition: background var(--duration-fast);
+}
+
+.cart:hover {
+  background: var(--color-surface-sunken);
 }
 
 .badge {

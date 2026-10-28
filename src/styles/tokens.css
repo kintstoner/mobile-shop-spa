@@ -24,6 +24,9 @@
   --color-success-subtle: #e7f4ef;
   --color-danger: #c2321f;
   --color-danger-subtle: #fdeeec;
+  /* Warning toasts: yellow with dark text (white on yellow fails contrast) */
+  --color-warning: #ffd23f;
+  --color-on-warning: #12151a;
   --color-disabled-bg: #e6e9ed;
   --color-disabled-text: #5a626e;
   --color-skeleton: #e6e9ed;
@@ -132,6 +135,8 @@
   --color-success-subtle: #12302a;
   --color-danger: #d2402c;
   --color-danger-subtle: #3a1c18;
+  --color-warning: #f2c230;
+  --color-on-warning: #12151a;
   --color-disabled-bg: #262a31;
   --color-disabled-text: #9ba3af;
   --color-skeleton: #22262d;
@@ -162,6 +167,10 @@
     --color-success-subtle: #12302a;
     --color-danger: #d2402c;
     --color-danger-subtle: #3a1c18;
+    --color-warning: #f2c230;
+    --color-on-warning: #12151a;
+    --color-warning: #f2c230;
+    --color-on-warning: #12151a;
     --color-disabled-bg: #262a31;
     --color-disabled-text: #9ba3af;
     --color-skeleton: #22262d;

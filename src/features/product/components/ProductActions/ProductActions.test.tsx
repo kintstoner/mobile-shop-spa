@@ -28,7 +28,7 @@ function recordCartRequests() {
   return bodies
 }
 
-const addButton = () => screen.getByRole('button', { name: /cesta/ })
+const addButton = () => screen.getByRole('button', { name: /^Añad/ })
 const group = (name: string) => screen.getByRole('group', { name: new RegExp(`^${name}`) })
 
 describe('ProductActions', () => {
