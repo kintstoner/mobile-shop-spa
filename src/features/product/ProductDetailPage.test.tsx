@@ -65,7 +65,9 @@ describe('ProductDetailPage', () => {
 
     const alert = await screen.findByRole('alert')
 
-    expect(alert).toHaveTextContent('No hemos podido cargar este producto')
+    expect(within(alert).getByRole('heading', { level: 1 })).toHaveTextContent(
+      'No hemos podido cargar este producto',
+    )
     expect(within(alert).getByRole('button', { name: 'Reintentar' })).toBeInTheDocument()
     expect(within(alert).getByRole('link', { name: 'Ver todos los productos' })).toHaveAttribute(
       'href',

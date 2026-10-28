@@ -70,3 +70,8 @@ a:hover {
   white-space: nowrap;
   border: 0;
 }
+
+/* Targets of the skip link are focused programmatically; they do not need a ring. */
+[tabindex='-1']:focus {
+  box-shadow: none;
+}

@@ -1,5 +1,6 @@
 import { ErrorMessage } from '../../components/ErrorMessage'
 import { Skeleton } from '../../components/Skeleton'
+import { SlowLoadNotice } from '../../components/SlowLoadNotice'
 import type { ProductSummary } from '../../domain/types'
 import { EmptySearch } from './EmptySearch'
 import { ProductCard } from './ProductCard'
@@ -17,7 +18,7 @@ export function ProductListPage() {
   const search = useProductSearch(products)
 
   return (
-    <main className={styles.page}>
+    <main id="main" tabIndex={-1} className={styles.page}>
       <div className={styles.toolbar}>
         <div className={styles.titleBlock}>
           <h1 className={styles.title}>Móviles y tablets</h1>
@@ -70,6 +71,7 @@ function GridSkeleton() {
       <output className="visually-hidden" aria-label="Cargando productos">
         Cargando productos…
       </output>
+      <SlowLoadNotice />
       <div className={styles.grid} aria-hidden="true">
         {Array.from({ length: SKELETON_CARDS }, (_, i) => (
           <div key={i} className={styles.skeletonCard}>

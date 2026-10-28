@@ -3,6 +3,7 @@ import { ErrorMessage } from '../../components/ErrorMessage'
 import { ArrowLeftIcon } from '../../components/icons'
 import { ProductImage } from '../../components/ProductImage'
 import { Skeleton } from '../../components/Skeleton'
+import { SlowLoadNotice } from '../../components/SlowLoadNotice'
 import type { ProductDetail } from '../../domain/types'
 import styles from './ProductDetailPage.module.css'
 import { ProductActions } from './ProductActions'
@@ -21,7 +22,7 @@ export function ProductDetailPage() {
   const query = useProduct(id)
 
   return (
-    <main className={styles.page}>
+    <main id="main" tabIndex={-1} className={styles.page}>
       <Link to={{ pathname: '/', search: fromList }} className={styles.back}>
         <ArrowLeftIcon />
         Volver al listado
@@ -30,6 +31,7 @@ export function ProductDetailPage() {
       {query.status === 'loading' && <DetailSkeleton />}
       {query.status === 'error' && (
         <ErrorMessage
+          headingLevel={1}
           title="No hemos podido cargar este producto"
           onRetry={query.retry}
           actions={
@@ -74,6 +76,7 @@ function DetailSkeleton() {
       <output className="visually-hidden" aria-label="Cargando producto">
         Cargando producto…
       </output>
+      <SlowLoadNotice />
       <div className={styles.layout} aria-hidden="true">
         <div className={styles.imageColumn}>
           <Skeleton className={styles.skeletonStage} />
