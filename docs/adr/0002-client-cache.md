@@ -33,6 +33,10 @@ not only to the API.
 
 - A second visit within the hour renders with no API call (checked in the QA pass); after the hour, one request
   revalidates it.
-- Revalidation is "expire then fetch", not stale-while-revalidate: after an hour the user waits for the API once.
-  Showing stale data while refreshing would be the next step if the API stayed this slow.
+- **Stale-while-revalidate**: an expired entry is kept for up to 24 hours more (). The page shows
+  it at once and fetches in the background (the expiry still forces a request to the API, as the statement asks);
+  the fresh answer replaces it, and if that request fails the cached data stays on screen instead of an error.
+  Older entries are deleted. With an API that can take a minute to wake up, the user never waits for a
+  revalidation.
+- A fresh cache hit renders on the first paint, with no skeleton flash.
 - The cart `POST` is never cached.

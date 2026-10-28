@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { createTtlCache } from './ttlCache'
 
 const HOUR = 60 * 60 * 1000
+const DAY = 24 * HOUR
 
 function setup(storage: Storage = localStorage) {
   let time = 1_000_000
@@ -11,7 +12,14 @@ function setup(storage: Storage = localStorage) {
       time += ms
     },
   }
-  const create = () => createTtlCache({ namespace: 'test', ttlMs: HOUR, storage, now: clock.now })
+  const create = () =>
+    createTtlCache({
+      namespace: 'test',
+      ttlMs: HOUR,
+      maxStaleMs: DAY,
+      storage,
+      now: clock.now,
+    })
   return { clock, create, cache: create() }
 }
 
@@ -54,13 +62,28 @@ describe('ttlCache', () => {
     expect(afterReload.get('product:1')).toBeUndefined()
   })
 
-  it('removes expired entries from storage', () => {
-    const { cache, create, clock } = setup()
-    cache.set('product:1', { id: '1' })
+  it('keeps an expired value available to peek, so the page can show it while it revalidates', () => {
+    const { cache, clock } = setup()
+    cache.set('products', [1, 2, 3])
     clock.advance(HOUR)
 
-    create().get('product:1')
+    expect(cache.get('products')).toBeUndefined()
+    expect(cache.peek('products')).toEqual([1, 2, 3])
+  })
 
+  it('peeks a fresh value too', () => {
+    const { cache } = setup()
+    cache.set('products', [1])
+
+    expect(cache.peek('products')).toEqual([1])
+  })
+
+  it('forgets entries older than the stale window', () => {
+    const { cache, create, clock } = setup()
+    cache.set('product:1', { id: '1' })
+    clock.advance(HOUR + DAY)
+
+    expect(create().peek('product:1')).toBeUndefined()
     expect(localStorage.length).toBe(0)
   })
 

@@ -10,7 +10,11 @@ import { config } from '../config'
 export function createTestApi(): ShopApi {
   return createShopApi({
     baseUrl: config.apiBaseUrl,
-    cache: createTtlCache({ namespace: 'test', ttlMs: config.cacheTtlMs }),
+    cache: createTtlCache({
+      namespace: 'test',
+      ttlMs: config.cacheTtlMs,
+      maxStaleMs: config.cacheMaxStaleMs,
+    }),
   })
 }
 

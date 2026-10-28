@@ -34,6 +34,10 @@ importa al usuario, no solo al API.
 
 - Una segunda visita dentro de la hora se pinta sin llamar al API (comprobado en la pasada de QA); pasada la hora,
   una petición la revalida.
-- La revalidación es "caduca y vuelve a pedir", no stale-while-revalidate: tras una hora el usuario espera al API una
-  vez. Mostrar el dato antiguo mientras se refresca sería el siguiente paso si el API siguiera tan lento.
+- **Stale-while-revalidate**: una entrada caducada se guarda hasta 24 horas más (). La página
+  la muestra al instante y pide los datos en segundo plano (la caducidad sigue obligando a pedirlos al API, como pide
+  el enunciado); la respuesta nueva la sustituye y, si esa petición falla, se mantiene el dato en pantalla en vez de un
+  error. Las entradas más antiguas se borran. Con un API que puede tardar un minuto en despertar, el usuario nunca
+  espera una revalidación.
+- Un acierto de caché fresco se pinta en el primer render, sin parpadeo de skeleton.
 - El `POST` de la cesta nunca se cachea.

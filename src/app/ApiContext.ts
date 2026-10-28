@@ -5,7 +5,11 @@ import { config } from '../config'
 
 export const defaultShopApi = createShopApi({
   baseUrl: config.apiBaseUrl,
-  cache: createTtlCache({ namespace: 'mobile-shop:api', ttlMs: config.cacheTtlMs }),
+  cache: createTtlCache({
+    namespace: 'mobile-shop:api',
+    ttlMs: config.cacheTtlMs,
+    maxStaleMs: config.cacheMaxStaleMs,
+  }),
 })
 
 export const ApiContext = createContext<ShopApi>(defaultShopApi)

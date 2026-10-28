@@ -6,6 +6,10 @@ export interface ShopApi {
   getProducts(): Promise<ApiProductSummary[]>
   getProduct(id: string): Promise<ApiProductDetail>
   addToCart(item: CartItem): Promise<number>
+  /** Cached list, fresh or expired (stale-while-revalidate); undefined if never loaded. */
+  peekProducts(): ApiProductSummary[] | undefined
+  /** Cached product detail, fresh or expired; undefined if never loaded. */
+  peekProduct(id: string): ApiProductDetail | undefined
 }
 
 interface Options {
@@ -42,6 +46,10 @@ export function createShopApi({ baseUrl, cache }: Options): ShopApi {
       cached(`product:${id}`, () =>
         requestJson<ApiProductDetail>(`${baseUrl}/api/product/${encodeURIComponent(id)}`),
       ),
+
+    peekProducts: () => cache.peek<ApiProductSummary[]>('products'),
+
+    peekProduct: (id) => cache.peek<ApiProductDetail>(`product:${id}`),
 
     addToCart: async (item) => {
       const { count } = await requestJson<{ count: number }>(`${baseUrl}/api/cart`, {

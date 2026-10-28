@@ -1,11 +1,19 @@
 import { screen, within } from '@testing-library/react'
 import { http, HttpResponse } from 'msw'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import { config } from '../../config'
 import { renderApp } from '../../test/renderApp'
+import products from '../../test/fixtures/products.json'
 import { server } from '../../test/server'
 
 const LIST_URL = `${config.apiBaseUrl}/api/product`
+
+function cacheOneProductExpired() {
+  localStorage.setItem(
+    'test:products',
+    JSON.stringify({ value: [products[0]], expiresAt: Date.now() - 1 }),
+  )
+}
 
 describe('ProductListPage', () => {
   it('shows a loading state while the products load', () => {
@@ -65,5 +73,34 @@ describe('ProductListPage', () => {
     await user.click(within(alert).getByRole('button', { name: 'Reintentar' }))
 
     expect(await screen.findByText('100 productos')).toBeInTheDocument()
+  })
+
+  describe('with an expired cache (stale-while-revalidate)', () => {
+    it('shows the cached list at once and replaces it when the API answers', async () => {
+      cacheOneProductExpired()
+      renderApp('/')
+
+      expect(screen.getByText('1 producto')).toBeInTheDocument()
+      expect(screen.queryByRole('status', { name: 'Cargando productos' })).not.toBeInTheDocument()
+
+      expect(await screen.findByText('100 productos')).toBeInTheDocument()
+    })
+
+    it('keeps showing the cached list if the revalidation fails', async () => {
+      cacheOneProductExpired()
+      let answered = false
+      server.use(
+        http.get(LIST_URL, () => {
+          answered = true
+          return new HttpResponse(null, { status: 500 })
+        }),
+      )
+      renderApp('/')
+
+      await vi.waitFor(() => expect(answered).toBe(true))
+
+      expect(screen.getByText('1 producto')).toBeInTheDocument()
+      expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+    })
   })
 })

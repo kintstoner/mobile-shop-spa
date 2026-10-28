@@ -14,7 +14,7 @@ const Z6_PLUS = 'cGjFJlmqNPIwU59AOcY8H'
 function createApi() {
   return createShopApi({
     baseUrl: BASE,
-    cache: createTtlCache({ namespace: 'api', ttlMs: HOUR }),
+    cache: createTtlCache({ namespace: 'api', ttlMs: HOUR, maxStaleMs: 24 * HOUR }),
   })
 }
 
@@ -85,6 +85,34 @@ describe('shopApi', () => {
       await Promise.all([api.getProducts(), api.getProducts()])
 
       expect(calls.count).toBe(1)
+    })
+  })
+
+  describe('peek', () => {
+    it('has nothing before the first load', () => {
+      expect(createApi().peekProducts()).toBeUndefined()
+      expect(createApi().peekProduct(Z6_PLUS)).toBeUndefined()
+    })
+
+    it('keeps offering expired data so the page can show it while it revalidates', async () => {
+      vi.useFakeTimers({ toFake: ['Date'] })
+      const calls = countRequests('/api/product', () => HttpResponse.json(products))
+      const api = createApi()
+      await api.getProducts()
+
+      vi.setSystemTime(Date.now() + HOUR)
+
+      expect(api.peekProducts()).toHaveLength(100)
+      await api.getProducts()
+      expect(calls.count).toBe(2)
+    })
+
+    it('offers a cached product detail', async () => {
+      countRequests('/api/product/:id', () => HttpResponse.json(productDetails[Z6_PLUS]))
+      const api = createApi()
+      await api.getProduct(Z6_PLUS)
+
+      expect(api.peekProduct(Z6_PLUS)?.model).toBe('Liquid Z6 Plus')
     })
   })
 
