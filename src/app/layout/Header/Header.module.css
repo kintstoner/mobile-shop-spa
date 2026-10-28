@@ -100,3 +100,10 @@
     padding: 0 var(--gutter);
   }
 }
+
+/* Very narrow phones: the logo mark alone (the link keeps its accessible name) leaves room for the tools. */
+@media (max-width: 399px) {
+  .logoText {
+    display: none;
+  }
+}

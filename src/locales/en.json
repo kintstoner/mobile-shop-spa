@@ -88,7 +88,9 @@
     "willAdd": "You will add: {{storage}} · {{color}}",
     "addedMessage_one": "{{model}} · {{storage}} · {{color}} added. You have {{count}} item in the cart.",
     "addedMessage_other": "{{model}} · {{storage}} · {{color}} added. You have {{count}} items in the cart.",
-    "failed": "It could not be added. Please try again."
+    "failed": "It could not be added. Please try again.",
+    "quickBuy": "Quick buy",
+    "chooseOptions": "Choose options"
   },
   "errors": {
     "retry": "Try again",

@@ -1,6 +1,6 @@
 import { screen, within } from '@testing-library/react'
 import { http, HttpResponse } from 'msw'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import { config } from '@/config'
 import { CART_STORAGE_KEY } from '@/features/cart'
 import { renderApp } from '@/test/renderApp'
@@ -106,5 +106,75 @@ describe('ProductActions', () => {
     await user.keyboard('{ArrowRight}')
 
     expect(screen.getByRole('radio', { name: 'White' })).toBeChecked()
+  })
+})
+
+describe('ProductActions placement', () => {
+  it('puts the add button before the specifications, so it is on screen without scrolling', async () => {
+    await openProduct(Z6_PLUS)
+
+    const specs = screen.getByRole('heading', { name: 'Especificaciones' })
+
+    expect(
+      addButton().compareDocumentPosition(specs) & Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy()
+  })
+})
+
+// jsdom has no layout: report the main add button as off screen.
+function mainButtonOffScreen() {
+  vi.stubGlobal(
+    'IntersectionObserver',
+    class {
+      callback: IntersectionObserverCallback
+      constructor(callback: IntersectionObserverCallback) {
+        this.callback = callback
+      }
+      observe() {
+        this.callback([{ isIntersecting: false } as IntersectionObserverEntry], this as never)
+      }
+      disconnect() {}
+    },
+  )
+}
+
+const stickyBar = () => screen.findByRole('region', { name: 'Compra rápida' })
+
+describe('Sticky buy bar (small screens, when the add button is off screen)', () => {
+  it('shows the price and an add button', async () => {
+    mainButtonOffScreen()
+    await openProduct(JADE_2)
+
+    expect(within(await stickyBar()).getByText('Precio no disponible')).toBeVisible()
+    expect(
+      within(await stickyBar()).getByRole('button', { name: 'Añadir a la cesta' }),
+    ).toBeVisible()
+  })
+
+  it('adds the product straight away when every option is chosen', async () => {
+    mainButtonOffScreen()
+    const bodies = recordCartRequests()
+    const { user } = await openProduct(JADE_2)
+
+    await user.click(within(await stickyBar()).getByRole('button', { name: 'Añadir a la cesta' }))
+
+    await vi.waitFor(() => expect(bodies).toHaveLength(1))
+  })
+
+  it('takes the user to the first missing option instead of doing nothing', async () => {
+    mainButtonOffScreen()
+    const bodies = recordCartRequests()
+    const { user } = await openProduct(Z6_PLUS)
+
+    await user.click(within(await stickyBar()).getByRole('button', { name: 'Elegir opciones' }))
+
+    expect(screen.getByRole('radio', { name: 'Black' })).toHaveFocus()
+    expect(bodies).toEqual([])
+  })
+
+  it('is not shown while the main add button is on screen', async () => {
+    await openProduct(JADE_2)
+
+    expect(screen.queryByRole('region', { name: 'Compra rápida' })).not.toBeInTheDocument()
   })
 })

@@ -1,7 +1,8 @@
 import { useTranslation } from 'react-i18next'
 import { Link, useLocation, useParams } from 'react-router'
 import { ProductActions } from '@/features/product/components/ProductActions/ProductActions'
-import { ProductDescription } from '@/features/product/components/ProductDescription/ProductDescription'
+import { ProductHeading } from '@/features/product/components/ProductHeading/ProductHeading'
+import { ProductSpecs } from '@/features/product/components/ProductSpecs/ProductSpecs'
 import { useProduct } from '@/features/product/hooks/useProduct'
 import type { ProductDetail } from '@/shared/domain/types'
 import { ErrorMessage } from '@/shared/ui/ErrorMessage/ErrorMessage'
@@ -61,10 +62,12 @@ function ProductView({ product }: { product: ProductDetail }) {
           <ProductImage src={product.imageUrl} alt={name} loading="eager" />
         </div>
       </section>
-      <div className={styles.infoColumn}>
-        <ProductDescription product={product} />
+      <section aria-labelledby="product-title" className={styles.infoColumn}>
+        {/* Purchase options right under the price, so the add button is on screen without scrolling. */}
+        <ProductHeading product={product} />
         <ProductActions key={product.id} product={product} />
-      </div>
+        <ProductSpecs product={product} />
+      </section>
     </div>
   )
 }

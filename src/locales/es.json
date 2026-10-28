@@ -88,7 +88,9 @@
     "willAdd": "Se añadirá: {{storage}} · {{color}}",
     "addedMessage_one": "{{model}} · {{storage}} · {{color}} añadido. Tienes {{count}} artículo en la cesta.",
     "addedMessage_other": "{{model}} · {{storage}} · {{color}} añadido. Tienes {{count}} artículos en la cesta.",
-    "failed": "No se ha podido añadir. Inténtalo de nuevo."
+    "failed": "No se ha podido añadir. Inténtalo de nuevo.",
+    "quickBuy": "Compra rápida",
+    "chooseOptions": "Elegir opciones"
   },
   "errors": {
     "retry": "Reintentar",

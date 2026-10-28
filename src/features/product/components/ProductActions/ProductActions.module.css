@@ -102,3 +102,36 @@
     animation: none;
   }
 }
+
+.stickyBar {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: var(--z-sticky);
+  padding: var(--space-3) var(--space-4) calc(var(--space-3) + env(safe-area-inset-bottom));
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sticky);
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.stickyPrice {
+  flex: 0 0 auto;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+}
+
+.stickyCta {
+  flex: 1 1 auto;
+  width: auto;
+}
+
+/* Wider screens show the purchase box next to the image, on screen from the start. */
+@media (min-width: 768px) {
+  .stickyBar {
+    display: none;
+  }
+}

@@ -14,5 +14,6 @@ export default defineConfig({
     exclude: [...configDefaults.exclude, 'e2e/**'],
     restoreMocks: true,
     unstubEnvs: true,
+    unstubGlobals: true,
   },
 })
