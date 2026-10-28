@@ -1,0 +1,288 @@
+{
+  "cGjFJlmqNPIwU59AOcY8H": {
+    "id": "cGjFJlmqNPIwU59AOcY8H",
+    "brand": "Acer",
+    "model": "Liquid Z6 Plus",
+    "price": "250",
+    "imgUrl": "https://itx-frontend-test.onrender.com/images/cGjFJlmqNPIwU59AOcY8H.jpg",
+    "networkTechnology": "GSM / HSPA / LTE",
+    "networkSpeed": "HSPA 42.2/5.76 Mbps  LTE Cat4 150/50 Mbps",
+    "gprs": "Yes",
+    "edge": "Yes",
+    "announced": "2016  August",
+    "status": "Available. Released 2016  December",
+    "dimentions": "153.8 x 75.6 x 8.5 mm (6.06 x 2.98 x 0.33 in)",
+    "weight": "169",
+    "sim": ["Single SIM (Micro-SIM) or Dual SIM (Micro-SIM", "dual stand-by)"],
+    "displayType": "IPS LCD capacitive touchscreen  16M colors",
+    "displayResolution": "5.5 inches (~71.7% screen-to-body ratio)",
+    "displaySize": "1080 x 1920 pixels (~401 ppi pixel density)",
+    "os": "Android 6.0 (Marshmallow)",
+    "cpu": "Octa-core 1.3 GHz Cortex-A53",
+    "chipset": "Mediatek MT6753",
+    "gpu": "Mali-T720MP3",
+    "externalMemory": "microSD  up to 256 GB (uses SIM 2 slot)",
+    "internalMemory": ["32 GB"],
+    "ram": "3 GB RAM",
+    "primaryCamera": ["13 MP", "autofocus", "LED flash"],
+    "secondaryCmera": "5 MP",
+    "speaker": "Yes",
+    "audioJack": "Yes",
+    "wlan": ["Wi-Fi 802.11 b/g/n", "Wi-Fi Direct", "hotspot"],
+    "bluetooth": ["4.0", "A2DP"],
+    "gps": "Yes with A-GPS",
+    "nfc": "",
+    "radio": "FM radio",
+    "usb": "microUSB 2.0",
+    "sensors": ["Fingerprint (front-mounted)", "accelerometer", "proximity"],
+    "battery": "Removable Li-Po 4080 mAh battery",
+    "colors": ["Black", "White"],
+    "options": {
+      "colors": [
+        {
+          "code": 1000,
+          "name": "Black"
+        },
+        {
+          "code": 1001,
+          "name": "White"
+        }
+      ],
+      "storages": [
+        {
+          "code": 2000,
+          "name": "32 GB"
+        }
+      ]
+    }
+  },
+  "pMZMhe_ZaAPZoaCCtlDrg": {
+    "id": "pMZMhe_ZaAPZoaCCtlDrg",
+    "brand": "Acer",
+    "model": "Liquid Jade 2",
+    "price": "",
+    "imgUrl": "https://itx-frontend-test.onrender.com/images/pMZMhe_ZaAPZoaCCtlDrg.jpg",
+    "networkTechnology": "GSM / HSPA / LTE",
+    "networkSpeed": "HSPA 42.2/5.76 Mbps  LTE Cat4 150/50 Mbps",
+    "gprs": "Yes",
+    "edge": "Yes",
+    "announced": "2016  February",
+    "status": "Available",
+    "dimentions": "-",
+    "weight": "",
+    "sim": ["Dual SIM (Nano-SIM", "dual stand-by)"],
+    "displayType": "Super AMOLED capacitive touchscreen  16M colors",
+    "displayResolution": "5.5 inches",
+    "displaySize": "1080 x 1920 pixels (~401 ppi pixel density)",
+    "os": "Android 6.0 (Marshmallow)",
+    "cpu": "Hexa-core (4x1.4 GHz Cortex-A53 & 2x1.8 GHz Cortex-A57)",
+    "chipset": "Qualcomm MSM8992 Snapdragon 808",
+    "gpu": "",
+    "externalMemory": "microSD  up to 256 GB",
+    "internalMemory": ["32 GB"],
+    "ram": "3 GB RAM",
+    "primaryCamera": ["21 MP", "autofocus", "dual-LED flash"],
+    "secondaryCmera": "8 MP",
+    "speaker": "Yes",
+    "audioJack": "Yes",
+    "wlan": ["Wi-Fi 802.11 a/b/g/n/ac", "dual-band", "Wi-Fi Direct", "hotspot"],
+    "bluetooth": ["4.0", "A2DP", "LE"],
+    "gps": "Yes with A-GPS",
+    "nfc": "",
+    "radio": "FM radio",
+    "usb": "microUSB 2.0",
+    "sensors": ["Accelerometer", "gyro", "proximity", "compass"],
+    "battery": "",
+    "colors": ["Black"],
+    "options": {
+      "colors": [
+        {
+          "code": 1000,
+          "name": "Black"
+        }
+      ],
+      "storages": [
+        {
+          "code": 2000,
+          "name": "32 GB"
+        }
+      ]
+    }
+  },
+  "g18mWn2tnbOq2HJx98pTb": {
+    "id": "g18mWn2tnbOq2HJx98pTb",
+    "brand": "Acer",
+    "model": "Iconia Tab A700",
+    "price": "230",
+    "imgUrl": "https://itx-frontend-test.onrender.com/images/g18mWn2tnbOq2HJx98pTb.jpg",
+    "networkTechnology": "No cellular connectivity",
+    "networkSpeed": "",
+    "gprs": "No",
+    "edge": "No",
+    "announced": "2012  January",
+    "status": "Available. Released 2012  August",
+    "dimentions": "259 x 175 x 11 mm (10.20 x 6.89 x 0.43 in)",
+    "weight": "665",
+    "sim": "No",
+    "displayType": "LCD capacitive touchscreen  16M colors",
+    "displayResolution": "10.1 inches (~65.3% screen-to-body ratio)",
+    "displaySize": "1920 x 1200 pixels (~224 ppi pixel density)",
+    "os": "Android 4.0 (Ice Cream Sandwich)",
+    "cpu": "Quad-core 1.3 GHz",
+    "chipset": "Nvidia Tegra 3",
+    "gpu": "ULP GeForce",
+    "externalMemory": "microSD  up to 32 GB (dedicated slot)",
+    "internalMemory": ["16 GB", "32 GB", "64 GB"],
+    "ram": "1 GB RAM",
+    "primaryCamera": ["5 MP", "autofocus", "LED flash"],
+    "secondaryCmera": "Yes",
+    "speaker": "Yes with stereo speakers",
+    "audioJack": "Yes",
+    "wlan": "Wi-Fi 802.11 b/g/n",
+    "bluetooth": ["2.1", "EDR"],
+    "gps": "Yes with A-GPS",
+    "nfc": "",
+    "radio": "No",
+    "usb": ["microUSB 2.0", "USB 2.0"],
+    "sensors": ["Accelerometer", "gyro", "compass"],
+    "battery": "Non-removable Li-Ion 9800 mAh battery",
+    "colors": ["Titanium Gray", "Metallic Red"],
+    "options": {
+      "colors": [
+        {
+          "code": 1000,
+          "name": "Titanium Gray"
+        },
+        {
+          "code": 1001,
+          "name": "Metallic Red"
+        }
+      ],
+      "storages": [
+        {
+          "code": 2000,
+          "name": "16 GB"
+        },
+        {
+          "code": 2001,
+          "name": "32 GB"
+        },
+        {
+          "code": 2002,
+          "name": "64 GB"
+        }
+      ]
+    }
+  },
+  "AasKFs5EGbyAEIKkcHQcF": {
+    "id": "AasKFs5EGbyAEIKkcHQcF",
+    "brand": "alcatel",
+    "model": "Flash (2017)",
+    "price": "",
+    "imgUrl": "https://itx-frontend-test.onrender.com/images/AasKFs5EGbyAEIKkcHQcF.jpg",
+    "networkTechnology": "GSM / HSPA / LTE",
+    "networkSpeed": "HSPA  LTE",
+    "gprs": "Yes",
+    "edge": "Yes",
+    "announced": "2017  April",
+    "status": "Available. Released 2017  May",
+    "dimentions": "152.6 x 75.4 x 8.7 mm (6.01 x 2.97 x 0.34 in)",
+    "weight": "155",
+    "sim": ["Dual SIM (Nano-SIM", "dual stand-by)"],
+    "displayType": "IPS LCD capacitive touchscreen  16M colors",
+    "displayResolution": "5.5 inches (~72.5% screen-to-body ratio)",
+    "displaySize": "1080 x 1920 pixels (~401 ppi pixel density)",
+    "os": "Android 6.0 (Marshmallow)",
+    "cpu": ["Deca-core (2x2.3 GHz Cortex-A72", "4x1.9 GHz Cortex-A53", "4x1.4 GHz Cortex-A53)"],
+    "chipset": "Mediatek MT6797 Helio X20",
+    "gpu": "Mali-T880MP4",
+    "externalMemory": "microSD  up to 256 GB",
+    "internalMemory": ["32 GB"],
+    "ram": "3 GB RAM",
+    "primaryCamera": [
+      "Dual 13 MP",
+      "f/2.0",
+      "phase detection autofocus",
+      "dual-LED (dual tone) flash"
+    ],
+    "secondaryCmera": ["Dual 8 MP + 5 MP", "f/2.0", "autofocus", "dual-LED (dual tone) flash"],
+    "speaker": "Yes",
+    "audioJack": "Yes",
+    "wlan": ["Wi-Fi 802.11 b/g/n", "Wi-Fi Direct", "hotspot"],
+    "bluetooth": ["4.1", "A2DP"],
+    "gps": "Yes with A-GPS GLONASS BDS",
+    "nfc": "",
+    "radio": "FM radio",
+    "usb": ["Type-C 1.0 reversible connector", "USB On-The-Go"],
+    "sensors": ["Fingerprint (rear-mounted)", "accelerometer", "proximity", "compass"],
+    "battery": "Non-removable Li-Ion 3100 mAh battery",
+    "colors": ["Titanium Grey"],
+    "options": {
+      "colors": [
+        {
+          "code": 1000,
+          "name": "Titanium Grey"
+        }
+      ],
+      "storages": [
+        {
+          "code": 2000,
+          "name": "32 GB"
+        }
+      ]
+    }
+  },
+  "dh1NH2p477n_7a1hOW5Vo": {
+    "id": "dh1NH2p477n_7a1hOW5Vo",
+    "brand": "Acer",
+    "model": "Iconia Tab 7 A1-713",
+    "price": "110",
+    "imgUrl": "https://itx-frontend-test.onrender.com/images/dh1NH2p477n_7a1hOW5Vo.jpg",
+    "networkTechnology": "GSM / HSPA",
+    "networkSpeed": "HSPA",
+    "gprs": "Yes",
+    "edge": "Yes",
+    "announced": "2014  April",
+    "status": "Available. Released 2014  August",
+    "dimentions": "8.9 mm thickness",
+    "weight": "298",
+    "sim": "Yes",
+    "displayType": "TFT capacitive touchscreen",
+    "displayResolution": "7.0 inches (~64.5% screen-to-body ratio)",
+    "displaySize": "600 x 1024 pixels (~170 ppi pixel density)",
+    "os": ["Android 4.2.2 (Jelly Bean)", "planned upgrade to 4.4.2 (KitKat)"],
+    "cpu": "Quad-core",
+    "chipset": "",
+    "gpu": "",
+    "externalMemory": "microSD  up to 32 GB (dedicated slot)",
+    "internalMemory": ["16 GB"],
+    "ram": "1 GB RAM",
+    "primaryCamera": "2 MP",
+    "secondaryCmera": "Yes",
+    "speaker": "Yes",
+    "audioJack": "Yes",
+    "wlan": "Wi-Fi 802.11 b/g/n",
+    "bluetooth": "Yes",
+    "gps": "Yes",
+    "nfc": "",
+    "radio": "No",
+    "usb": "microUSB 2.0",
+    "sensors": "Accelerometer",
+    "battery": "Non-removable Li-Ion battery",
+    "colors": ["Black"],
+    "options": {
+      "colors": [
+        {
+          "code": 1000,
+          "name": "Black"
+        }
+      ],
+      "storages": [
+        {
+          "code": 2000,
+          "name": "16 GB"
+        }
+      ]
+    }
+  }
+}
