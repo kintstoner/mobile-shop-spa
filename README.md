@@ -1,6 +1,6 @@
 # mobile-shop-spa
 
-[Español](README.es.md)
+[Español](README.es.md) · [![CI](https://github.com/kintstoner/mobile-shop-spa/actions/workflows/ci.yml/badge.svg)](https://github.com/kintstoner/mobile-shop-spa/actions/workflows/ci.yml)
 
 Single-page app to browse and buy mobile phones: a product list with real-time search, a product detail page with
 colour and storage selectors, and a cart counter in the header, on top of the

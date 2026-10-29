@@ -1,6 +1,6 @@
 # mobile-shop-spa
 
-[English](README.md)
+[English](README.md) · [![CI](https://github.com/kintstoner/mobile-shop-spa/actions/workflows/ci.yml/badge.svg)](https://github.com/kintstoner/mobile-shop-spa/actions/workflows/ci.yml)
 
 Aplicación de una sola página para ver y comprar móviles: listado de productos con búsqueda en tiempo real, página de
 detalle con selectores de color y almacenamiento, y contador de cesta en la cabecera, sobre el
